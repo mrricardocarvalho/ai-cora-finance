@@ -1,0 +1,70 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.*
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Build / bundler
+dist/
+build/
+.next/
+.out/
+.cache/
+.public/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Log files
+logs/
+*.log
+
+# Test coverage
+coverage/
+coverage.*
+
+# Database
+*.sqlite3
+
+# Secrets
+*.pem
+*.key
+
+# Misc
+*.swp
+*.tmp
+
+# Local VS Code settings
+.vscode/
+
+# npm
+package-lock.json
+
+# Mac
+.AppleDouble
+
+# Windows
+Thumbs.db
+
+# Generated docs previews and local artifacts (optional)
+# If you want to keep generated HTML under docs/, remove from ignore
+# docs/ux-color-themes.html
+# docs/ux-design-directions.html

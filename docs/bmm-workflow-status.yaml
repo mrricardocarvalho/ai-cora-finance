@@ -1,0 +1,88 @@
+# BMM Workflow Status
+# Tracks progress through BMad Method phases
+# Generated: 2025-11-27
+
+generated: "2025-11-27"
+project: "cora-finance"
+project_type: "AI-driven personal finance coach"
+selected_track: "bmad-method"
+field_type: "greenfield"
+workflow_path: "method-greenfield.yaml"
+
+workflow_status:
+  # Phase 0: Discovery (Optional)
+  - phase: 0
+    name: "Discovery"
+    workflows:
+      - id: "product-brief"
+        name: "Product Brief"
+        status: "docs/product-brief-cora-finance-2025-11-27.md"
+        agent: "analyst"
+        command: "*product-brief"
+
+  # Phase 1: Planning
+  - phase: 1
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        name: "PRD"
+        status: "docs/prd.md"
+        agent: "pm"
+        command: "*prd"
+
+      - id: "validate-prd"
+        name: "Validate PRD"
+        status: "optional"
+        agent: "pm"
+        command: "*validate-prd"
+
+      - id: "create-design"
+        name: "Create Design"
+        status: "docs/ux-design-specification.md"
+        condition: "if_has_ui"
+        agent: "ux-designer"
+        command: "*create-design"
+
+  # Phase 2: Solutioning
+  - phase: 2
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        name: "Create Architecture"
+        status: "required"
+        agent: "architect"
+        command: "*create-architecture"
+
+      - id: "create-epics-and-stories"
+        name: "Create Epics & Stories"
+        status: "required"
+        agent: "pm"
+        command: "*create-epics-and-stories"
+
+      - id: "test-design"
+        name: "Test Design"
+        status: "recommended"
+        agent: "tea"
+        command: "*test-design"
+
+      - id: "validate-architecture"
+        name: "Validate Architecture"
+        status: "optional"
+        agent: "architect"
+        command: "*validate-architecture"
+
+      - id: "implementation-readiness"
+        name: "Implementation Readiness"
+        status: "required"
+        agent: "architect"
+        command: "*implementation-readiness"
+
+  # Phase 3: Implementation
+  - phase: 3
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        name: "Sprint Planning"
+        status: "required"
+        agent: "sm"
+        command: "*sprint-planning"

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cora Finance - Color Theme Explorer</title>
+  <style>
+    :root {
+      /* Selected Theme: Oceanic Trust */
+      --primary: #0D9488;
+      --primary-hover: #0F766E;
+      --primary-muted: #CCFBF1;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #F43F5E;
+      --info: #0EA5E9;
+      --background: #FAFAFA;
+      --surface: #FFFFFF;
+      --border: #E5E7EB;
+      --text-primary: #111827;
+      --text-secondary: #6B7280;
+      --text-muted: #9CA3AF;
+      --money-in: #22C55E;
+      --money-out: #64748B;
+      --savings: #14B8A6;
+      --investments: #6366F1;
+      --debt: #F97316;
+    }
+
+    .dark {
+      --background: #0F172A;
+      --surface: #1E293B;
+      --border: #334155;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary-muted);
+    }
+
+    .section {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    /* Color Palette Grid */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .color-swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .color-preview {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .color-info {
+      padding: 0.75rem;
+      background: var(--surface);
+    }
+
+    .color-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Component Examples */
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-muted);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--primary);
+    }
+
+    .btn-ghost:hover {
+      background: var(--primary-muted);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* Form Elements */
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .input {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--surface);
+      color: var(--text-primary);
+      transition: border-color 0.2s;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-muted);
+    }
+
+    .input-error {
+      border-color: var(--danger);
+    }
+
+    .error-text {
+      color: var(--danger);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .card-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .badge-success {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    .badge-warning {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .badge-danger {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .card-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-value.positive {
+      color: var(--money-in);
+    }
+
+    .card-value.negative {
+      color: var(--danger);
+    }
+
+    .card-meta {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Insight Card Preview */
+    .insight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--primary);
+    }
+
+    .insight-card.urgent {
+      border-left-color: var(--danger);
+    }
+
+    .insight-card.warning {
+      border-left-color: var(--warning);
+    }
+
+    .insight-card.opportunity {
+      border-left-color: var(--success);
+    }
+
+    .insight-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .insight-priority {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .insight-priority.urgent {
+      color: var(--danger);
+    }
+
+    .insight-priority.warning {
+      color: var(--warning);
+    }
+
+    .insight-priority.opportunity {
+      color: var(--success);
+    }
+
+    .insight-time {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .insight-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .insight-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .insight-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .insight-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+    }
+
+    .insight-btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .insight-btn-secondary {
+      background: var(--background);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    /* Health Score */
+    .health-score-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1rem;
+    }
+
+    .health-score {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--success) 0deg 270deg,
+        var(--border) 270deg 360deg
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .health-score-inner {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .health-score-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    .health-score-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .health-score-details h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    .health-score-details p {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Alerts */
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .alert-success {
+      background: #D1FAE5;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+
+    .alert-warning {
+      background: #FEF3C7;
+      border: 1px solid #FDE68A;
+      color: #92400E;
+    }
+
+    .alert-danger {
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+
+    .alert-info {
+      background: #DBEAFE;
+      border: 1px solid #BFDBFE;
+      color: #1E40AF;
+    }
+
+    .alert-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Financial Colors Demo */
+    .financial-demo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .financial-item {
+      padding: 1.5rem;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .financial-item span {
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    /* Theme Comparison */
+    .theme-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .theme-preview {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .theme-preview-header {
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .theme-preview.light .theme-preview-header {
+      background: #FAFAFA;
+      color: #111827;
+    }
+
+    .theme-preview.dark .theme-preview-header {
+      background: #0F172A;
+      color: #F8FAFC;
+    }
+
+    .theme-preview-content {
+      padding: 1.5rem;
+    }
+
+    .theme-preview.light .theme-preview-content {
+      background: #FFFFFF;
+    }
+
+    .theme-preview.dark .theme-preview-content {
+      background: #1E293B;
+      color: #F8FAFC;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .theme-comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .financial-demo {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .health-score-container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-label">Dark Mode</span>
+  </button>
+
+  <div class="container">
+    <header>
+      <h1>🎨 Cora Finance Color Theme</h1>
+      <p class="subtitle">Oceanic Trust — Calm Confidence for Financial Wellbeing</p>
+    </header>
+
+    <!-- Primary Palette -->
+    <section class="section">
+      <h2 class="section-title">Primary Palette</h2>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #0D9488;">Aa</div>
+          <div class="color-info">
+            <div class="color-name">Primary</div>
+            <div class="color-hex">#0D9488</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #0F766E;">Aa</div>
+          <div class="color-info">
+            <div class="color-name">Primary Hover</div>
+            <div class="color-hex">#0F766E</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #CCFBF1; color: #0D9488;">Aa</div>
+          <div class="color-info">
+            <div class="color-name">Primary Muted</div>
+            <div class="color-hex">#CCFBF1</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Semantic Colors -->
+    <section class="section">
+      <h2 class="section-title">Semantic Colors</h2>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #10B981;">✓ Success</div>
+          <div class="color-info">
+            <div class="color-name">Success</div>
+            <div class="color-hex">#10B981</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #F59E0B;">⚠ Warning</div>
+          <div class="color-info">
+            <div class="color-name">Warning</div>
+            <div class="color-hex">#F59E0B</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #F43F5E;">✕ Danger</div>
+          <div class="color-info">
+            <div class="color-name">Danger</div>
+            <div class="color-hex">#F43F5E</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-preview" style="background: #0EA5E9;">ℹ Info</div>
+          <div class="color-info">
+            <div class="color-name">Info</div>
+            <div class="color-hex">#0EA5E9</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Financial Data Colors -->
+    <section class="section">
+      <h2 class="section-title">Financial Data Colors</h2>
+      <div class="financial-demo">
+        <div class="financial-item" style="background: #22C55E;">
+          €1,234
+          <span>Money In</span>
+        </div>
+        <div class="financial-item" style="background: #64748B;">
+          €567
+          <span>Money Out</span>
+        </div>
+        <div class="financial-item" style="background: #14B8A6;">
+          €890
+          <span>Savings</span>
+        </div>
+        <div class="financial-item" style="background: #6366F1;">
+          €12,345
+          <span>Investments</span>
+        </div>
+        <div class="financial-item" style="background: #F97316;">
+          €2,500
+          <span>Debt</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Button Components -->
+    <section class="section">
+      <h2 class="section-title">Button Components</h2>
+      <div class="component-row">
+        <button class="btn btn-primary">Primary Action</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-ghost">Ghost Button</button>
+        <button class="btn btn-danger">Delete</button>
+      </div>
+    </section>
+
+    <!-- Form Elements -->
+    <section class="section">
+      <h2 class="section-title">Form Elements</h2>
+      <div class="input-group">
+        <label class="input-label">Email Address</label>
+        <input type="email" class="input" placeholder="ricar@example.com">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Amount *</label>
+        <input type="text" class="input" value="€ 1,234.56">
+      </div>
+      <div class="input-group">
+        <label class="input-label">With Error</label>
+        <input type="text" class="input input-error" value="Invalid input">
+        <p class="error-text">Please enter a valid amount</p>
+      </div>
+    </section>
+
+    <!-- Alerts -->
+    <section class="section">
+      <h2 class="section-title">Alert Messages</h2>
+      <div class="alert alert-success">
+        <span class="alert-icon">✓</span>
+        <div>
+          <strong>Statement Processed!</strong>
+          <p>42 transactions imported successfully.</p>
+        </div>
+      </div>
+      <div class="alert alert-warning">
+        <span class="alert-icon">⚠</span>
+        <div>
+          <strong>Approaching Comfort Floor</strong>
+          <p>You'll reach your €500 floor in approximately 5 days.</p>
+        </div>
+      </div>
+      <div class="alert alert-danger">
+        <span class="alert-icon">!</span>
+        <div>
+          <strong>Unusual Transaction Detected</strong>
+          <p>€450 charge from unknown merchant. Is this correct?</p>
+        </div>
+      </div>
+      <div class="alert alert-info">
+        <span class="alert-icon">ℹ</span>
+        <div>
+          <strong>Tax Tip</strong>
+          <p>Remember to save receipts for health expenses — deductible up to 15%!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insight Cards -->
+    <section class="section">
+      <h2 class="section-title">Insight Cards (Core UX)</h2>
+      <div class="card-grid">
+        <div class="insight-card urgent">
+          <div class="insight-header">
+            <span class="insight-priority urgent">🔴 Urgent</span>
+            <span class="insight-time">2 hours ago</span>
+          </div>
+          <h3 class="insight-title">Approaching Comfort Floor</h3>
+          <p class="insight-description">At current spending rate, you'll hit your €500 floor in 3 days.</p>
+          <div class="insight-actions">
+            <button class="insight-btn insight-btn-primary">View Forecast</button>
+            <button class="insight-btn insight-btn-secondary">Dismiss</button>
+          </div>
+        </div>
+
+        <div class="insight-card warning">
+          <div class="insight-header">
+            <span class="insight-priority warning">🟡 Important</span>
+            <span class="insight-time">Yesterday</span>
+          </div>
+          <h3 class="insight-title">IRS Tax Deadline</h3>
+          <p class="insight-description">IRS submission deadline is April 30th. You have unclaimed deductions worth ~€200.</p>
+          <div class="insight-actions">
+            <button class="insight-btn insight-btn-primary">View Deductions</button>
+            <button class="insight-btn insight-btn-secondary">Later</button>
+          </div>
+        </div>
+
+        <div class="insight-card opportunity">
+          <div class="insight-header">
+            <span class="insight-priority opportunity">🟢 Opportunity</span>
+            <span class="insight-time">This week</span>
+          </div>
+          <h3 class="insight-title">Unused Subscription Found</h3>
+          <p class="insight-description">You're paying €12.99/month for Netflix but haven't used it in 3 months. Save €156/year?</p>
+          <div class="insight-actions">
+            <button class="insight-btn insight-btn-primary">Cancel Link</button>
+            <button class="insight-btn insight-btn-secondary">Keep It</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Health Score -->
+    <section class="section">
+      <h2 class="section-title">Health Score Component</h2>
+      <div class="health-score-container">
+        <div class="health-score">
+          <div class="health-score-inner">
+            <span class="health-score-value">75</span>
+            <span class="health-score-label">Score</span>
+          </div>
+        </div>
+        <div class="health-score-details">
+          <h4>Good Financial Health</h4>
+          <p>You're above your comfort floor with healthy spending patterns. Consider increasing emergency fund to reach 80+.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Stat Cards -->
+    <section class="section">
+      <h2 class="section-title">Quick Stat Cards</h2>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Net Worth</span>
+            <span class="card-badge badge-success">↑ 3.2%</span>
+          </div>
+          <div class="card-value positive">€45,230</div>
+          <div class="card-meta">+€1,412 this month</div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">This Month</span>
+            <span class="card-badge badge-warning">↑ 12%</span>
+          </div>
+          <div class="card-value">€1,847</div>
+          <div class="card-meta">vs €1,650 last month</div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Comfort Floor</span>
+            <span class="card-badge badge-success">Safe</span>
+          </div>
+          <div class="card-value positive">€2,340</div>
+          <div class="card-meta">€1,840 above floor</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Light vs Dark Comparison -->
+    <section class="section">
+      <h2 class="section-title">Light vs Dark Mode</h2>
+      <div class="theme-comparison">
+        <div class="theme-preview light">
+          <div class="theme-preview-header">☀️ Light Mode</div>
+          <div class="theme-preview-content">
+            <p style="margin-bottom: 1rem; color: #111827;"><strong>Background:</strong> #FAFAFA</p>
+            <p style="margin-bottom: 1rem; color: #111827;"><strong>Surface:</strong> #FFFFFF</p>
+            <p style="margin-bottom: 1rem; color: #6B7280;"><strong>Text Secondary:</strong> #6B7280</p>
+            <button class="btn btn-primary" style="margin-top: 0.5rem;">Primary Button</button>
+          </div>
+        </div>
+        <div class="theme-preview dark">
+          <div class="theme-preview-header">🌙 Dark Mode</div>
+          <div class="theme-preview-content">
+            <p style="margin-bottom: 1rem;"><strong>Background:</strong> #0F172A</p>
+            <p style="margin-bottom: 1rem;"><strong>Surface:</strong> #1E293B</p>
+            <p style="margin-bottom: 1rem; color: #94A3B8;"><strong>Text Secondary:</strong> #94A3B8</p>
+            <button class="btn btn-primary" style="margin-top: 0.5rem;">Primary Button</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('theme-label').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cora Finance - Design Direction Mockups</title>
+  <style>
+    :root {
+      --primary: #0D9488;
+      --primary-hover: #0F766E;
+      --primary-muted: #CCFBF1;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #F43F5E;
+      --info: #0EA5E9;
+      --background: #FAFAFA;
+      --surface: #FFFFFF;
+      --border: #E5E7EB;
+      --text-primary: #111827;
+      --text-secondary: #6B7280;
+      --text-muted: #9CA3AF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .nav-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .screen-indicator {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Main Content */
+    .main {
+      padding-top: 80px;
+      min-height: 100vh;
+    }
+
+    /* Screen Container */
+    .screen-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .screen-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .screen-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .screen-header p {
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Device Frame */
+    .device-frame {
+      background: var(--background);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .device-frame.desktop {
+      max-width: 1000px;
+    }
+
+    /* Mobile App Mockup */
+    .mobile-app {
+      background: var(--background);
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-primary);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      background: var(--surface);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* App Header */
+    .app-header {
+      background: var(--surface);
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .app-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .app-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary) 0%, #14B8A6 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .app-logo-text {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--background);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Health Score Header */
+    .health-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #14B8A6 100%);
+      padding: 1.5rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .health-score-mini {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .health-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .health-label {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    .health-status {
+      font-weight: 600;
+    }
+
+    .quick-stats {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .quick-stat {
+      text-align: right;
+    }
+
+    .quick-stat-value {
+      font-weight: 600;
+    }
+
+    .quick-stat-label {
+      opacity: 0.8;
+      font-size: 0.75rem;
+    }
+
+    /* Insight Feed */
+    .insight-feed {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .feed-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      padding-left: 0.25rem;
+    }
+
+    .insight-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-left: 4px solid var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .insight-card.urgent {
+      border-left-color: var(--danger);
+    }
+
+    .insight-card.opportunity {
+      border-left-color: var(--success);
+    }
+
+    .insight-card.warning {
+      border-left-color: var(--warning);
+    }
+
+    .insight-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .insight-badge {
+      font-size: 0.625rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .insight-badge.urgent {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .insight-badge.opportunity {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+
+    .insight-badge.warning {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+
+    .insight-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .insight-title {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .insight-desc {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .insight-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .insight-btn {
+      padding: 0.5rem 0.875rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+
+    .insight-btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .insight-btn-secondary {
+      background: var(--background);
+      color: var(--text-secondary);
+    }
+
+    /* Chat Input */
+    .chat-input-bar {
+      background: var(--surface);
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input {
+      display: flex;
+      align-items: center;
+      background: var(--background);
+      border-radius: 24px;
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: none;
+      background: none;
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .chat-input input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .chat-input-icon {
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      background: var(--surface);
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid var(--border);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      background: var(--primary-muted);
+    }
+
+    .nav-item-icon {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-item-label {
+      font-size: 0.625rem;
+      font-weight: 500;
+    }
+
+    /* Desktop Layout */
+    .desktop-app {
+      display: flex;
+      min-height: 600px;
+      color: var(--text-primary);
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .sidebar-nav-item.active {
+      background: var(--primary-muted);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .sidebar-nav-item:hover {
+      background: var(--background);
+    }
+
+    .sidebar-health {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-score {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .sidebar-score-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--success) 0%, #34D399 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    .desktop-main {
+      flex: 1;
+      background: var(--background);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desktop-header {
+      background: var(--surface);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .desktop-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .desktop-content {
+      flex: 1;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .insight-feed-desktop {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .desktop-sidebar-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .stat-card-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    .stat-card-value.positive {
+      color: var(--success);
+    }
+
+    .stat-card-meta {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    /* Screen Thumbnails */
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 80px;
+      height: 60px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.625rem;
+      text-align: center;
+    }
+
+    .thumbnail:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .thumbnail.active {
+      border-color: var(--primary);
+      background: rgba(13, 148, 136, 0.2);
+    }
+
+    /* Responsive Toggle */
+    .responsive-toggle {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.25rem;
+      border-radius: 8px;
+    }
+
+    .responsive-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.75rem;
+    }
+
+    .responsive-btn.active {
+      background: var(--primary);
+    }
+
+    /* Hide/Show screens */
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* Onboarding Screen */
+    .onboarding-screen {
+      background: var(--surface);
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-primary);
+    }
+
+    .onboarding-progress {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .progress-dot.active {
+      background: var(--primary);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .progress-dot.completed {
+      background: var(--primary);
+    }
+
+    .onboarding-content {
+      flex: 1;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cora-message {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cora-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, #14B8A6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cora-bubble {
+      background: var(--background);
+      padding: 1rem;
+      border-radius: 12px;
+      border-top-left-radius: 4px;
+      max-width: 280px;
+    }
+
+    .cora-bubble p {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .quick-reply {
+      background: var(--surface);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 0.75rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .quick-reply:hover {
+      background: var(--primary-muted);
+    }
+
+    /* Chat Screen */
+    .chat-screen {
+      background: var(--background);
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-primary);
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .message {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+    }
+
+    .message.user .message-avatar {
+      background: var(--text-secondary);
+    }
+
+    .message-bubble {
+      background: var(--surface);
+      padding: 0.875rem 1rem;
+      border-radius: 12px;
+      max-width: 280px;
+      font-size: 0.9375rem;
+    }
+
+    .message.user .message-bubble {
+      background: var(--primary);
+      color: white;
+    }
+
+    .message-chart {
+      background: var(--surface);
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 300px;
+    }
+
+    .mini-chart {
+      height: 120px;
+      background: linear-gradient(to top, var(--primary-muted) 0%, transparent 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.5rem;
+      gap: 0.25rem;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: var(--primary);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .suggested-questions {
+      padding: 0.75rem 1rem;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .suggested-q {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.75rem;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .suggested-q:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-title">🎨 Cora Finance - Design Mockups</div>
+    <div class="nav-controls">
+      <div class="responsive-toggle">
+        <button class="responsive-btn active" onclick="setDevice('mobile')">📱 Mobile</button>
+        <button class="responsive-btn" onclick="setDevice('desktop')">💻 Desktop</button>
+      </div>
+      <span class="screen-indicator">Screen <span id="current-screen">1</span> of <span id="total-screens">4</span></span>
+      <button class="nav-btn" onclick="prevScreen()">← Prev</button>
+      <button class="nav-btn" onclick="nextScreen()">Next →</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <!-- Screen 1: Home / Insight Feed (Mobile) -->
+    <div class="screen-container screen active" id="screen-1">
+      <div class="screen-header">
+        <h1>Home — Insight Feed</h1>
+        <p>The primary interface: Cora proactively delivers value, user responds</p>
+      </div>
+      
+      <div class="device-frame" id="device-frame-1">
+        <div class="mobile-app">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+          </div>
+          
+          <div class="app-header">
+            <div class="app-logo">
+              <div class="app-logo-icon">🌊</div>
+              <span class="app-logo-text">Cora</span>
+            </div>
+            <div class="header-actions">
+              <div class="header-icon">🔔</div>
+              <div class="header-icon">⚙️</div>
+            </div>
+          </div>
+
+          <div class="health-header">
+            <div class="health-score-mini">
+              <div class="health-circle">75</div>
+              <div>
+                <div class="health-label">Health Score</div>
+                <div class="health-status">Good Shape 👍</div>
+              </div>
+            </div>
+            <div class="quick-stats">
+              <div class="quick-stat">
+                <div class="quick-stat-value">€45,230</div>
+                <div class="quick-stat-label">Net Worth</div>
+              </div>
+              <div class="quick-stat">
+                <div class="quick-stat-value">€1,340</div>
+                <div class="quick-stat-label">Above Floor</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-feed">
+            <div class="feed-section-title">New Insights</div>
+            
+            <div class="insight-card urgent">
+              <div class="insight-top">
+                <span class="insight-badge urgent">🔴 Urgent</span>
+                <span class="insight-time">2h ago</span>
+              </div>
+              <h3 class="insight-title">Approaching Comfort Floor</h3>
+              <p class="insight-desc">At current rate, you'll hit €500 floor in 3 days.</p>
+              <div class="insight-actions">
+                <button class="insight-btn insight-btn-primary">View Forecast</button>
+                <button class="insight-btn insight-btn-secondary">Dismiss</button>
+              </div>
+            </div>
+
+            <div class="insight-card opportunity">
+              <div class="insight-top">
+                <span class="insight-badge opportunity">🟢 Opportunity</span>
+                <span class="insight-time">Yesterday</span>
+              </div>
+              <h3 class="insight-title">Unused Subscription Found</h3>
+              <p class="insight-desc">€12.99/mo for Netflix — unused for 3 months. Save €156/year?</p>
+              <div class="insight-actions">
+                <button class="insight-btn insight-btn-primary">Review</button>
+                <button class="insight-btn insight-btn-secondary">Keep</button>
+              </div>
+            </div>
+
+            <div class="insight-card warning">
+              <div class="insight-top">
+                <span class="insight-badge warning">🟡 Tax Alert</span>
+                <span class="insight-time">This week</span>
+              </div>
+              <h3 class="insight-title">IRS Deadline Approaching</h3>
+              <p class="insight-desc">Submit by April 30. You have ~€200 in unclaimed deductions.</p>
+              <div class="insight-actions">
+                <button class="insight-btn insight-btn-primary">View Deductions</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input-bar">
+            <div class="chat-input">
+              <span>💬</span>
+              <input type="text" placeholder="Ask Cora anything...">
+              <span class="chat-input-icon">🎤</span>
+            </div>
+          </div>
+
+          <div class="bottom-nav">
+            <div class="nav-item active">
+              <span class="nav-item-icon">🏠</span>
+              <span class="nav-item-label">Home</span>
+            </div>
+            <div class="nav-item">
+              <span class="nav-item-icon">📊</span>
+              <span class="nav-item-label">Dashboard</span>
+            </div>
+            <div class="nav-item">
+              <span class="nav-item-icon">🎯</span>
+              <span class="nav-item-label">Goals</span>
+            </div>
+            <div class="nav-item">
+              <span class="nav-item-icon">📁</span>
+              <span class="nav-item-label">Data</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbnails">
+        <div class="thumbnail active" onclick="goToScreen(1)">Home Feed</div>
+        <div class="thumbnail" onclick="goToScreen(2)">Onboarding</div>
+        <div class="thumbnail" onclick="goToScreen(3)">Chat</div>
+        <div class="thumbnail" onclick="goToScreen(4)">Desktop</div>
+      </div>
+    </div>
+
+    <!-- Screen 2: Onboarding -->
+    <div class="screen-container screen" id="screen-2">
+      <div class="screen-header">
+        <h1>Conversational Onboarding</h1>
+        <p>One question at a time — feels like a conversation, not a form</p>
+      </div>
+      
+      <div class="device-frame" id="device-frame-2">
+        <div class="onboarding-screen">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+          </div>
+
+          <div class="onboarding-progress">
+            <div class="progress-dot completed"></div>
+            <div class="progress-dot completed"></div>
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+          </div>
+
+          <div class="onboarding-content">
+            <div class="cora-message">
+              <div class="cora-avatar">🌊</div>
+              <div class="cora-bubble">
+                <p>Nice to meet you! 👋</p>
+              </div>
+            </div>
+
+            <div class="cora-message">
+              <div class="cora-avatar">🌊</div>
+              <div class="cora-bubble">
+                <p>What's your biggest worry when it comes to money?</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8125rem; color: var(--text-secondary);">This helps me focus on what matters most to you.</p>
+              </div>
+            </div>
+
+            <div class="quick-replies">
+              <button class="quick-reply">Not saving enough</button>
+              <button class="quick-reply">Overspending</button>
+              <button class="quick-reply">Taxes & deductions</button>
+              <button class="quick-reply">Investment confusion</button>
+              <button class="quick-reply">Just want clarity</button>
+            </div>
+          </div>
+
+          <div class="chat-input-bar">
+            <div class="chat-input">
+              <input type="text" placeholder="Or type your own answer...">
+              <span class="chat-input-icon">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbnails">
+        <div class="thumbnail" onclick="goToScreen(1)">Home Feed</div>
+        <div class="thumbnail active" onclick="goToScreen(2)">Onboarding</div>
+        <div class="thumbnail" onclick="goToScreen(3)">Chat</div>
+        <div class="thumbnail" onclick="goToScreen(4)">Desktop</div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Chat with Rich Response -->
+    <div class="screen-container screen" id="screen-3">
+      <div class="screen-header">
+        <h1>Chat — Rich Responses</h1>
+        <p>Natural language questions with visual answers</p>
+      </div>
+      
+      <div class="device-frame" id="device-frame-3">
+        <div class="chat-screen">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 🔋</span>
+          </div>
+
+          <div class="app-header">
+            <div class="app-logo">
+              <div class="app-logo-icon">🌊</div>
+              <span class="app-logo-text">Ask Cora</span>
+            </div>
+            <div class="header-icon">✕</div>
+          </div>
+
+          <div class="chat-messages">
+            <div class="message user">
+              <div class="message-avatar">R</div>
+              <div class="message-bubble">Where did my money go last month?</div>
+            </div>
+
+            <div class="message">
+              <div class="message-avatar">🌊</div>
+              <div class="message-chart">
+                <p style="font-weight: 600; margin-bottom: 0.75rem;">November Spending: €1,847</p>
+                <div class="mini-chart">
+                  <div class="chart-bar" style="height: 80%;"></div>
+                  <div class="chart-bar" style="height: 60%;"></div>
+                  <div class="chart-bar" style="height: 45%;"></div>
+                  <div class="chart-bar" style="height: 30%;"></div>
+                  <div class="chart-bar" style="height: 20%;"></div>
+                  <div class="chart-bar" style="height: 15%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.625rem; color: var(--text-muted);">
+                  <span>Housing</span>
+                  <span>Food</span>
+                  <span>Transport</span>
+                  <span>Bills</span>
+                  <span>Shopping</span>
+                  <span>Other</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="message">
+              <div class="message-avatar">🌊</div>
+              <div class="message-bubble">
+                <p><strong>Top 3 categories:</strong></p>
+                <p style="margin-top: 0.5rem;">🏠 Housing: €650 (35%)</p>
+                <p>🍕 Food: €420 (23%)</p>
+                <p>🚗 Transport: €180 (10%)</p>
+                <p style="margin-top: 0.75rem; font-size: 0.8125rem; color: var(--text-secondary);">This is 12% higher than October. Want me to find where the increase came from?</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="suggested-questions">
+            <div class="suggested-q">What increased?</div>
+            <div class="suggested-q">Show subscriptions</div>
+            <div class="suggested-q">Compare to average</div>
+          </div>
+
+          <div class="chat-input-bar">
+            <div class="chat-input">
+              <span>💬</span>
+              <input type="text" placeholder="Ask a follow-up...">
+              <span class="chat-input-icon">🎤</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbnails">
+        <div class="thumbnail" onclick="goToScreen(1)">Home Feed</div>
+        <div class="thumbnail" onclick="goToScreen(2)">Onboarding</div>
+        <div class="thumbnail active" onclick="goToScreen(3)">Chat</div>
+        <div class="thumbnail" onclick="goToScreen(4)">Desktop</div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Desktop Layout -->
+    <div class="screen-container screen" id="screen-4">
+      <div class="screen-header">
+        <h1>Desktop Layout</h1>
+        <p>Enhanced experience with sidebar navigation and multi-column layout</p>
+      </div>
+      
+      <div class="device-frame desktop" id="device-frame-4">
+        <div class="desktop-app">
+          <div class="sidebar">
+            <div class="sidebar-logo">
+              <div class="app-logo-icon">🌊</div>
+              <span class="app-logo-text">Cora</span>
+            </div>
+
+            <ul class="sidebar-nav">
+              <li class="sidebar-nav-item active">
+                <span>🏠</span>
+                <span>Home</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>📊</span>
+                <span>Dashboard</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>💳</span>
+                <span>Transactions</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>📈</span>
+                <span>Investments</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>🎯</span>
+                <span>Goals</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>🇵🇹</span>
+                <span>Tax Center</span>
+              </li>
+              <li class="sidebar-nav-item">
+                <span>⚙️</span>
+                <span>Settings</span>
+              </li>
+            </ul>
+
+            <div class="sidebar-health">
+              <div class="sidebar-score">
+                <div class="sidebar-score-circle">75</div>
+                <div>
+                  <div style="font-weight: 600;">Good Shape</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Health Score</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="desktop-main">
+            <div class="desktop-header">
+              <h2 class="desktop-title">Home</h2>
+              <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="chat-input" style="width: 300px;">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Ask Cora..." style="background: none; border: none; flex: 1;">
+                </div>
+                <div class="header-icon">🔔</div>
+              </div>
+            </div>
+
+            <div class="desktop-content">
+              <div class="insight-feed-desktop">
+                <h3 style="margin-bottom: 1rem; font-size: 1rem;">Recent Insights</h3>
+                
+                <div class="insight-card urgent" style="margin-bottom: 1rem;">
+                  <div class="insight-top">
+                    <span class="insight-badge urgent">🔴 Urgent</span>
+                    <span class="insight-time">2 hours ago</span>
+                  </div>
+                  <h3 class="insight-title">Approaching Comfort Floor</h3>
+                  <p class="insight-desc">At current spending rate, you'll hit your €500 floor in 3 days.</p>
+                  <div class="insight-actions">
+                    <button class="insight-btn insight-btn-primary">View Forecast</button>
+                    <button class="insight-btn insight-btn-secondary">Dismiss</button>
+                  </div>
+                </div>
+
+                <div class="insight-card opportunity">
+                  <div class="insight-top">
+                    <span class="insight-badge opportunity">🟢 Opportunity</span>
+                    <span class="insight-time">Yesterday</span>
+                  </div>
+                  <h3 class="insight-title">Tax Deduction Found</h3>
+                  <p class="insight-desc">Your health expenses qualify for €200 in IRS deductions.</p>
+                  <div class="insight-actions">
+                    <button class="insight-btn insight-btn-primary">View Details</button>
+                    <button class="insight-btn insight-btn-secondary">Later</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="desktop-sidebar-panel">
+                <div class="stat-card">
+                  <div class="stat-card-label">Net Worth</div>
+                  <div class="stat-card-value positive">€45,230</div>
+                  <div class="stat-card-meta">↑ €1,412 this month</div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-card-label">This Month</div>
+                  <div class="stat-card-value">€1,847</div>
+                  <div class="stat-card-meta">vs €1,650 last month</div>
+                </div>
+
+                <div class="stat-card">
+                  <div class="stat-card-label">Comfort Floor</div>
+                  <div class="stat-card-value positive">€1,340</div>
+                  <div class="stat-card-meta">above €500 floor</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumbnails">
+        <div class="thumbnail" onclick="goToScreen(1)">Home Feed</div>
+        <div class="thumbnail" onclick="goToScreen(2)">Onboarding</div>
+        <div class="thumbnail" onclick="goToScreen(3)">Chat</div>
+        <div class="thumbnail active" onclick="goToScreen(4)">Desktop</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentScreen = 1;
+    const totalScreens = 4;
+
+    function updateScreen() {
+      // Hide all screens
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+      
+      // Show current screen
+      document.getElementById(`screen-${currentScreen}`).classList.add('active');
+      document.querySelectorAll('.thumbnail')[currentScreen - 1]?.classList.add('active');
+      
+      // Update indicator
+      document.getElementById('current-screen').textContent = currentScreen;
+      document.getElementById('total-screens').textContent = totalScreens;
+    }
+
+    function nextScreen() {
+      currentScreen = currentScreen >= totalScreens ? 1 : currentScreen + 1;
+      updateScreen();
+    }
+
+    function prevScreen() {
+      currentScreen = currentScreen <= 1 ? totalScreens : currentScreen - 1;
+      updateScreen();
+    }
+
+    function goToScreen(n) {
+      currentScreen = n;
+      updateScreen();
+    }
+
+    function setDevice(device) {
+      document.querySelectorAll('.responsive-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      document.querySelectorAll('.device-frame').forEach(frame => {
+        if (device === 'desktop') {
+          frame.classList.add('desktop');
+        } else {
+          frame.classList.remove('desktop');
+        }
+      });
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextScreen();
+      if (e.key === 'ArrowLeft') prevScreen();
+    });
+  </script>
+</body>
+</html>
