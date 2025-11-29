@@ -1,0 +1,28 @@
+story_id: "story-2.1-banking-schema"
+title: "Banking Data Model & RLS"
+status: "Approved"
+owner: "Ricar"
+repo_root: "C:/Users/ricar/Documents/Personal/Projectos/ProjectCoraFinance"
+target_branch: "dev"
+package_manager: "npm"
+node_version: "20.x"
+dependencies:
+  - "drizzle-orm"
+  - "postgres"
+devDependencies:
+  - "drizzle-kit"
+folder_structure:
+  - "/src/db/schema.ts"
+  - "/db/migrations/0002_accounts_transactions.sql"
+schema_requirements:
+  accounts_table:
+    fields: [id, user_id, name, type, balance, institution, interest_rate, min_payment]
+    enums: [checking, savings, credit_card, loan, broker]
+  transactions_table:
+    fields: [id, account_id, user_id, amount, date, description, category, is_recurring, tax_deductible]
+    note: "Include user_id on transactions to simplify RLS policies"
+security:
+  rls_enabled: true
+  policy_logic: "auth.uid() = user_id"
+verify: "Tables exist in Supabase with RLS policies and enums; migrations applied."
+output_path: ".bmad/bmm/story-contexts/story-2.1-banking-schema.yaml"

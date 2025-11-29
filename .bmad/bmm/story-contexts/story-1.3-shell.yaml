@@ -1,0 +1,36 @@
+story_id: "story-1.3-shell"
+title: "Application Shell & Navigation"
+status: "Approved"
+owner: "Ricar"
+repo_root: "C:/Users/ricar/Documents/Personal/Projectos/ProjectCoraFinance"
+target_branch: "dev"
+package_manager: "npm"
+node_version: "20.x"
+next_version: "14"
+dependencies:
+  - "lucide-react"
+  - "clsx"
+  - "tailwind-merge"
+shadcn_components_to_add:
+  - "sheet"
+  - "button"
+  - "avatar"
+  - "dropdown-menu"
+  - "separator"
+folder_structure:
+  - "/app/(dashboard)/layout.tsx"
+  - "/app/(dashboard)/dashboard/page.tsx"
+  - "/components/layout/sidebar.tsx"
+  - "/components/layout/bottom-nav.tsx"
+  - "/components/layout/header.tsx"
+  - "/components/shared/privacy-shield.tsx"
+navigation_items:
+  - { label: "Home", href: "/", icon: "Home" }
+  - { label: "Dashboard", href: "/dashboard", icon: "BarChart3" }
+  - { label: "Data", href: "/data", icon: "Wallet" }
+  - { label: "Goals", href: "/planning", icon: "Target" }
+colors:
+  primary: "Use CSS variable --primary"
+  background: "Use CSS variable --bg"
+verify: "Navigation appears correctly on mobile (bottom) and desktop (sidebar). Links navigate to placeholder pages."
+output_path: ".bmad/bmm/story-contexts/story-1.3-shell.yaml"

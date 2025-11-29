@@ -1,0 +1,36 @@
+story_id: "story-1.2-auth"
+title: "Database Schema & Auth Setup"
+status: "Approved"
+owner: "Ricar"
+repo_root: "C:/Users/ricar/Documents/Personal/Projectos/ProjectCoraFinance"
+target_branch: "dev"
+package_manager: "npm"
+node_version: "20.x"
+next_version: "14"
+dependencies:
+  - "@supabase/ssr"
+  - "@supabase/supabase-js"
+  - "postgres"
+  - "drizzle-orm"
+  - "dotenv"
+devDependencies:
+  - "drizzle-kit"
+  - "@types/pg"
+env_vars_required:
+  - "NEXT_PUBLIC_SUPABASE_URL"
+  - "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"
+  - "DATABASE_URL"
+  - "SUPABASE_SERVICE_ROLE_KEY"
+folder_structure:
+  - "/lib/supabase"
+  - "/db"
+  - "/app/auth"
+  - "/app/login"
+  - "/middleware.ts"
+schema_requirements:
+  table: "profiles"
+  fields: [id, email, comfort_floor, risk_tolerance, onboarding_completed, onboarding_step, currency]
+  rls: true
+auth_flow: "Email/Password"
+verify: "Able to sign up a new user at /login and see the record in Supabase 'profiles' table."
+output_path: ".bmad/bmm/story-contexts/story-1.2-auth.yaml"
