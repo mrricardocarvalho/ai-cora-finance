@@ -8,19 +8,19 @@
 **So that** I can spend guilt-free without breaking my budget.
 
 ## Acceptance Criteria
-1.  [ ] **Server Action:** Implement `getSafeToSpend(userId)` in `lib/intelligence/safe-spend.ts`.
-2.  [ ] **Liquid Assets Calculation:** Sum the `balance` of all accounts where `type` is 'checking' or 'savings'. (Ignore investments/debt).
-3.  [ ] **Comfort Floor Retrieval:** Fetch the `comfort_floor` value from the `profiles` table.
-4.  [ ] **Pending Bills Calculation:**
+1.  [x] **Server Action:** Implement `getSafeToSpend(userId)` in `lib/intelligence/safe-spend.ts`.
+2.  [x] **Liquid Assets Calculation:** Sum the `balance` of all accounts where `type` is 'checking' or 'savings'. (Ignore investments/debt).
+3.  [x] **Comfort Floor Retrieval:** Fetch the `comfort_floor` value from the `profiles` table.
+4.  [x] **Pending Bills Calculation:**
     *   Fetch active `recurring_patterns`.
     *   Filter for items where `next_date` is between **Today** and **End of Current Month**.
     *   Sum these amounts.
-5.  [ ] **The Formula:** `SafeSpend = LiquidAssets - ComfortFloor - PendingBills`.
-6.  [ ] **Status Logic:** Return a status enum along with the value:
+5.  [x] **The Formula:** `SafeSpend = LiquidAssets - ComfortFloor - PendingBills`.
+6.  [x] **Status Logic:** Return a status enum along with the value:
     *   `Safe` (Value > 0)
     *   `Caution` (Value between 0 and -10% of floor)
     *   `Danger` (Value < -10% of floor)
-7.  [ ] **Verification:** Create a unit test or simple script to verify the math with mock data.
+7.  [x] **Verification:** Create a unit test or simple script to verify the math with mock data.
 
 ## Dev Notes (Context)
 

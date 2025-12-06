@@ -1,6 +1,6 @@
 # Story 4.3: Portfolio Dashboard UI
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** User,
@@ -8,20 +8,20 @@
 **So that** I understand my net worth and risk exposure at a glance.
 
 ## Acceptance Criteria
-1.  [ ] **Page:** Create `/portfolio` page (Protected route).
-2.  [ ] **Data Fetching:** Implement `getPortfolioData(userId)` Server Action.
+1.  [x] **Page:** Create `/portfolio` page (Protected route).
+2.  [x] **Data Fetching:** Implement `getPortfolioData(userId)` Server Action.
     *   Join `holdings` with `assets` (to get current price).
     *   Calculate `Current Value` (`Quantity * Current Price`).
     *   Calculate `Cost Basis` (`Quantity * Avg Cost`).
     *   Calculate `Unrealized Gain/Loss` (`Value - Cost`).
-3.  [ ] **Summary Cards:** Display 3 top cards:
+3.  [x] **Summary Cards:** Display 3 top cards:
     *   **Total Value** (e.g., €12,500).
     *   **Total Return** (e.g., +€1,200 / +10.5%). Color Green if +, Red if -.
     *   **Day Change** (Optional/Stretch: Needs historical price, can mock for MVP).
-4.  [ ] **Allocation Chart:** Implement a Donut/Pie Chart using `Recharts` showing breakdown by Asset Type (Stock vs ETF vs Crypto) or by Asset Name.
-5.  [ ] **Holdings List:** Display a table of individual holdings.
+4.  [x] **Allocation Chart:** Implement a Donut/Pie Chart using `Recharts` showing breakdown by Asset Type (Stock vs ETF vs Crypto) or by Asset Name.
+5.  [x] **Holdings List:** Display a table of individual holdings.
     *   Columns: Ticker, Name, Qty, Price, Value, Return.
-6.  [ ] **Empty State:** If no holdings exist, show a "Start Investing" CTA (links to Add Transaction).
+6.  [x] **Empty State:** If no holdings exist, show a "Start Investing" CTA (links to Add Transaction).
 
 ## Dev Notes (Context)
 
@@ -45,6 +45,12 @@ Use the `PieChart` component from Recharts (wrapped in a shadcn Card).
 
 **4. Performance:**
 Ensure `getPortfolioData` runs efficiently. It should be a single query with a join.
+
+**Implementation Notes:**
+- `src/lib/actions/portfolio.ts` — `getPortfolioData(userId)` implemented. Joins `holdings` with `assets` and computes `current_price`, `value`, `cost`, `unrealized`, and totals.
+- `src/app/(dashboard)/portfolio/page.tsx` — page implemented, server-side protected route; fetches data and renders components.
+- Components implemented: `src/components/portfolio/portfolio-summary.tsx`, `allocation-chart.tsx`, and `holdings-table.tsx`.
+- `recharts` added to `package.json` and installed.
 
 ---
 

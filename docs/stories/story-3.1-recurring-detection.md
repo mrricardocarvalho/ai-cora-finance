@@ -8,17 +8,17 @@
 **So that** I can predict future liabilities for the "Safe-to-Spend" calculation.
 
 ## Acceptance Criteria
-1.  [ ] **Schema:** Create a `recurring_patterns` table to store detected bills (merchant, amount, frequency, next_due_date).
-2.  [ ] **Detection Logic:** Implement a utility `detectRecurringPatterns(userId)` that scans the `transactions` table.
-3.  [ ] **Algorithm:** Identify transactions with:
+1.  [x] **Schema:** Create a `recurring_patterns` table to store detected bills (merchant, amount, frequency, next_due_date).
+2.  [x] **Detection Logic:** Implement a utility `detectRecurringPatterns(userId)` that scans the `transactions` table.
+3.  [x] **Algorithm:** Identify transactions with:
     *   Same Description (fuzzy match or exact).
     *   Similar Amount (+/- 5% variance).
     *   Regular Interval (Monthly).
-4.  [ ] **Action:** When a pattern is found:
+4.  [x] **Action:** When a pattern is found:
     *   Insert/Update row in `recurring_patterns`.
     *   Update the specific rows in `transactions` setting `is_recurring = true`.
-5.  [ ] **Trigger:** Hook this logic to run after `uploadStatement` (Story 2.4/2.5) completes.
-6.  [ ] **Verification:** Uploading 3 months of data with "Netflix" charges results in a "Netflix" entry in the `recurring_patterns` table.
+5.  [x] **Trigger:** Hook this logic to run after `uploadStatement` (Story 2.4/2.5) completes.
+6.  [x] **Verification:** Uploading 3 months of data with "Netflix" charges results in a "Netflix" entry in the `recurring_patterns` table.
 
 ## Dev Notes (Context)
 

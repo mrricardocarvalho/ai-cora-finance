@@ -1,0 +1,9 @@
+development_status:
+  11.1-scenario-engine: review
+  12.1-speech-to-text: review
+  13.1-predictive-pattern-recognition: review
+  13.2-opportunity-detection-engine: review
+  13.3-weekly-financial-summary: review
+  13.4-smart-recommendations-engine: in-progress
+  14.1-household-creation: review
+  14.2-account-visibility: in-progress

@@ -8,19 +8,19 @@
 **So that** I know exactly what requires my attention without digging through data.
 
 ## Acceptance Criteria
-1.  [ ] **Component:** Create `InsightCard` component matching UX Spec v1.3.
+1.  [x] **Component:** Create `InsightCard` component matching UX Spec v1.3.
     *   Props: `priority`, `title`, `message`, `timestamp`, `actions`, `scoreImpact`.
-2.  [ ] **Visual Styles:** Implement distinct styles for priorities:
+2.  [x] **Visual Styles:** Implement distinct styles for priorities:
     *   **Urgent:** Red border/badge (`border-danger`, `bg-danger/10`).
     *   **Warning:** Amber border/badge.
     *   **Opportunity:** Green border/badge.
     *   **Info:** Blue/Gray styling.
-3.  [ ] **Feed Container:** Create `InsightFeed` component that fetches data via Server Action (`getInsights`).
-4.  [ ] **Interactions:**
+3.  [x] **Feed Container:** Create `InsightFeed` component that fetches data via Server Action (`getInsights`).
+4.  [x] **Interactions:**
     *   **Dismiss:** Clicking "X" or "Dismiss" removes the card from view immediately (Optimistic UI).
     *   **Act:** Clicking the primary action button navigates to the relevant page (e.g., `/data`) AND marks the insight as 'acted'.
-5.  [ ] **Gamification:** When an insight is marked 'acted', trigger a **Success Toast** showing `+5 Health Score` (Visual only for now, logic in next story).
-6.  [ ] **Empty State:** If no insights exist, show the "All Clear" state defined in UX Spec ("🎉 All caught up!").
+5.  [x] **Gamification:** When an insight is marked 'acted', trigger a **Success Toast** showing `+5 Health Score` (Visual only for now, logic in next story).
+6.  [x] **Empty State:** If no insights exist, show the "All Clear" state defined in UX Spec ("🎉 All caught up!").
 
 ## Dev Notes (Context)
 

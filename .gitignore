@@ -56,13 +56,32 @@ coverage.*
 .vscode/
 
 # npm
-package-lock.json
+## Lockfile
+# It's recommended to commit `package-lock.json` for reproducible installs. Removed from ignore.
 
 # Mac
 .AppleDouble
 
 # Windows
 Thumbs.db
+
+# BMAD
+.bmad
+# docs are tracked in the repo (design docs). Remove 'docs' from ignore if you want them in git.
+# db folder contains migrations and should be tracked. Removed from ignore so SQL migrations are committed.
+
+# Playwright browser binaries and test artifacts (local, large)
+.playwright/
+.playwright-mcp/
+test-results/
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
+
+# Local build/debug logs (regenerated, not useful in git)
+build-output.txt
+tsc-output.txt
+*.log
 
 # Generated docs previews and local artifacts (optional)
 # If you want to keep generated HTML under docs/, remove from ignore

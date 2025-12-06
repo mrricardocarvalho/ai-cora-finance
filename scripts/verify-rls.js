@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
-import crypto from 'crypto'
+const { createClient } = require('@supabase/supabase-js')
+const dotenv = require('dotenv')
+const crypto = require('crypto')
 
 dotenv.config()
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL

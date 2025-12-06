@@ -1,6 +1,6 @@
 # Story 4.4: Manual Investment Entry
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** User,
@@ -8,21 +8,21 @@
 **So that** my portfolio reflects my actual holdings across different brokers.
 
 ## Acceptance Criteria
-1.  [ ] **UI Component:** Create `AddInvestmentDialog` component (triggered from Portfolio page).
-2.  [ ] **Ticker Search:** Implement a searchable Combobox (using `Command` component) that queries the `assets` table or Yahoo Finance API to find assets by Symbol or Name.
-3.  [ ] **Form Fields:**
+1.  [x] **UI Component:** Create `AddInvestmentDialog` component (triggered from Portfolio page).
+2.  [x] **Ticker Search:** Implement a searchable Combobox (using `TickerSearch`) that queries the `assets` table; includes 'Search Market' fallback querying Yahoo Finance API.
+3.  [x] **Form Fields:**
     *   Date (DatePicker)
     *   Ticker (Search)
     *   Type (Select: Buy, Sell, Dividend)
     *   Quantity (Decimal)
     *   Price per Share (Decimal)
     *   Fees (Decimal - Critical for Tax)
-4.  [ ] **Validation (Client & Server):**
+4.  [x] **Validation (Client & Server):**
     *   "Sell" quantity cannot exceed current holding quantity for that ticker.
     *   Price and Qty must be positive.
-5.  [ ] **Server Action:** Integrate with `recordInvestmentTransaction` (from Story 4.1 logic).
+5.  [x] **Server Action:** Integrate with `recordInvestmentTransaction` (from Story 4.1 logic).
     *   Ensure it handles the atomic update of the `holdings` table.
-6.  [ ] **Feedback:** Show success toast and refresh the Portfolio page.
+6.  [x] **Feedback:** Show success toast and refresh the Portfolio page.
 
 ## Dev Notes (Context)
 

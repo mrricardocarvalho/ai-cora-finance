@@ -1,6 +1,6 @@
 # Story 4.1: Investment Data Model (Event-Sourced)
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** Developer,
@@ -8,14 +8,14 @@
 **So that** the portfolio data remains mathematically accurate and audit-proof for tax purposes.
 
 ## Acceptance Criteria
-1.  [ ] **Schema `assets`:** Create a table for global asset data (Ticker, Name, Type, Current Price).
-2.  [ ] **Schema `investment_transactions`:** Create the "Source of Truth" table (Buy/Sell/Dividend, Qty, Price, Fees, Date).
-3.  [ ] **Schema `holdings`:** Create the "Derived State" table (Current Qty, Avg Cost Basis).
-4.  [ ] **Atomic Logic:** Implement a `recordInvestmentTransaction` Server Action using a **Database Transaction**.
+1.  [x] **Schema `assets`:** Create a table for global asset data (Ticker, Name, Type, Current Price).
+2.  [x] **Schema `investment_transactions`:** Create the "Source of Truth" table (Buy/Sell/Dividend, Qty, Price, Fees, Date).
+3.  [x] **Schema `holdings`:** Create the "Derived State" table (Current Qty, Avg Cost Basis).
+4.  [x] **Atomic Logic:** Implement a `recordInvestmentTransaction` Server Action using a **Database Transaction**.
     *   When a "Buy" is recorded -> Insert Transaction -> Update/Insert Holding (+Qty, Recalculate Avg Cost).
     *   When a "Sell" is recorded -> Insert Transaction -> Update Holding (-Qty).
-5.  [ ] **Constraints:** Ensure `holdings` cannot go negative (validation).
-6.  [ ] **Migration:** Generate and push Drizzle migration.
+5.  [x] **Constraints:** Ensure `holdings` cannot go negative (validation).
+6.  [x] **Migration:** Generate and push Drizzle migration.
 
 ## Dev Notes (Context)
 
@@ -59,6 +59,12 @@ Use `db.transaction(async (tx) => { ... })` to ensure data integrity.
 
 **3. RLS:**
 Apply standard RLS (`auth.uid() = user_id` via account join) to Transactions and Holdings. `assets` table might need to be public-read (or shared) if we centralize prices later, but for now, treat as system data.
+
+**Implementation Notes:**
+- `assets`, `investment_transactions`, and `holdings` added in `src/db/schema.ts` and `db/migrations/0008_create_investment_schema.sql`.
+- `record_investment_transaction` RPC implemented in SQL migration to process buy/sell atomically.
+- `src/lib/actions/investments.ts` provides server wrappers that call the RPC and expose a typed API.
+- Tests exist for buy flows and basic validation under `src/tests/investments` (integration-style) — please run with a configured dev Supabase environment.
 
 ---
 

@@ -8,19 +8,19 @@
 **So that** I have instant clarity on my financial position without doing math.
 
 ## Acceptance Criteria
-1.  [ ] **Dashboard Page:** Update `/app/(dashboard)/page.tsx` (Home) to display the core dashboard layout.
-2.  [ ] **Data Fetching:** Integrate `getSafeToSpend` (from Story 3.2) into the page load (Server Component).
-3.  [ ] **Widget UI:** Create `SafeToSpendWidget` component.
+1.  [x] **Dashboard Page:** Update `/app/(dashboard)/page.tsx` (Home) to display the core dashboard layout.
+2.  [x] **Data Fetching:** Integrate `getSafeToSpend` (from Story 3.2) into the page load (Server Component).
+3.  [x] **Widget UI:** Create `SafeToSpendWidget` component.
     *   Display the calculated amount in large text.
     *   **Visuals:** Green text (`text-success`) if Positive, Red text (`text-danger`) if Negative/Danger.
     *   **Format:** Strict Portuguese format (`1.234,56 €`).
-4.  [ ] **Breakdown View:** On click/tap, expand or open a Popover showing the math:
+4.  [x] **Breakdown View:** On click/tap, expand or open a Popover showing the math:
     *   `+ Liquid Cash`
     *   `- Comfort Floor`
     *   `- Pending Bills`
     *   `= Safe to Spend`
-5.  [ ] **Loading State:** Show a `Skeleton` loader while fetching data to prevent layout shift.
-6.  [ ] **Responsive:** Full width on Mobile, distinct card on Desktop sidebar (as per UX Spec).
+5.  [x] **Loading State:** Show a `Skeleton` loader while fetching data to prevent layout shift.
+6.  [x] **Responsive:** Full width on Mobile, distinct card on Desktop sidebar (as per UX Spec).
 
 ## Dev Notes (Context)
 

@@ -1,0 +1,4 @@
+// Backup file: no longer used, see app/(dashboard)/page.tsx
+export default function DeletedDashboardPage(){
+  return null
+}

@@ -1,53 +1,164 @@
 import React from 'react'
-import InsightCard from '../components/InsightCard'
-import TransactionList from '../components/TransactionList'
-import { Button } from '../components/ui'
+import { redirect } from 'next/navigation'
+import { createClient } from '../lib/supabase/server'
+import Sidebar from '../components/layout/Sidebar'
+import Header from '../components/layout/Header'
+import BottomNav from '../components/layout/BottomNav'
+import CompactInsightList from '../components/insights/CompactInsightList'
+import SafeToSpendWidget from '../components/dashboard/SafeToSpendWidget'
+import HealthScoreWidget from '../components/dashboard/HealthScoreWidget'
+import FinancialSummaryWidget from '../components/dashboard/FinancialSummaryWidget'
+import CashFlowForecastChart from '../components/dashboard/CashFlowForecastChart'
+import { RootHomeGreeting, RootOverviewHeader, RootRecentInsightsHeader, ViewDetailsLink } from '../components/shared/PageHeader'
+import { fetchSafeToSpend } from '../lib/actions/dashboard'
+import { getInsights, generateInsights } from '../lib/actions/insights'
+import { getHealthScore } from '../lib/actions/health-score'
+import { getFinancialSummary } from '../lib/actions/summary'
 
-type Insight = { id: number; priority: 'urgent' | 'opportunity' | 'tax' | 'info'; title: string; message: string; timestamp: string }
-const insights: Insight[] = [
-  { id: 1, priority: 'urgent', title: 'Projected to hit floor in 4 days.', message: 'Adjust spending or transfer funds to avoid hitting comfort floor.', timestamp: '2025-11-28' },
-  { id: 2, priority: 'opportunity', title: 'Netflix subscription unused for 3 months.', message: 'Cancel or share subscription to save €12/month.', timestamp: '2025-11-20' },
-  { id: 3, priority: 'tax', title: 'Upload health receipts for IRS.', message: 'You may be eligible for deductions.', timestamp: '2025-11-10' },
-]
+type InsightRow = { id: string; type: string; title: string; message: string; created_at?: string }
+type InsightsResult = { success: boolean; data?: InsightRow[]; error?: string }
 
-type Transaction = { id: string; merchant: string; date: string; amount: number; category: string }
-const transactions: Transaction[] = [
-  { id: 't1', merchant: 'Moey', date: '2025-11-25', amount: -15.3, category: 'Subscriptions' },
-  { id: 't2', merchant: 'ActivoBank', date: '2025-11-22', amount: 250.0, category: 'Income' },
-  { id: 't3', merchant: 'Supermarket', date: '2025-11-21', amount: -45.6, category: 'Groceries' },
-]
+export default async function RootPage() {
+  const supabase = await createClient()
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  
+  if (userError || !user) {
+    redirect('/login')
+  }
+  
+  // Check if user has completed onboarding
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('onboarding_completed')
+    .eq('id', user.id)
+    .maybeSingle()
+  
+  if (profileError) {
+    console.error('Profile query error:', profileError)
+    redirect('/onboarding')
+  }
+  
+  if (!profile || !profile.onboarding_completed) {
+    redirect('/onboarding')
+  }
+  
+  // Fetch data for Home page
+  let safeToSpendData = null
+  let insightsRes: InsightsResult = { success: true, data: [] }
+  let healthScoreData = null
+  let financialSummary = null
+  let proactiveInsights: { greeting: string; insights: Array<{ type: string; title: string; message: string; actionable?: string; priority: number }> } | null = null
+  
+  // Generate insights (will use AI if possible, includes proactive analysis)
+  try {
+    const genResult = await generateInsights(user.id)
+    if (genResult.proactiveAnalysis) {
+      proactiveInsights = {
+        greeting: genResult.proactiveAnalysis.greeting,
+        insights: genResult.proactiveAnalysis.insights
+      }
+    }
+  } catch (e) {
+    console.warn('generateInsights failed:', e)
+  }
+  
+  try {
+    safeToSpendData = await fetchSafeToSpend(user.id)
+  } catch (e) {
+    console.warn('fetchSafeToSpend failed:', e)
+  }
+  
+  try {
+    const result = await getInsights(user.id)
+    insightsRes = result as InsightsResult
+  } catch (e) {
+    console.warn('getInsights failed:', e)
+  }
+  
+  try {
+    const result = await getHealthScore(user.id)
+    if (result.success) {
+      healthScoreData = result.data ?? null
+    }
+  } catch (e) {
+    console.warn('getHealthScore failed:', e)
+  }
+  
+  try {
+    const result = await getFinancialSummary(user.id)
+    if (result.success) {
+      financialSummary = result.data ?? null
+    }
+  } catch (e) {
+    console.warn('getFinancialSummary failed:', e)
+  }
+  
 
-export default function Page() {
+  
+  const insightsList: InsightRow[] = insightsRes.success && Array.isArray(insightsRes.data) ? insightsRes.data : []
+  
+  // Render with dashboard-style layout and mesh background
   return (
-    <div className="p-4">
-      <header className="mb-6">
-        <div className="rounded-md p-6 mb-4 bg-primary text-primary-foreground">
-          <h1 className="text-2xl font-semibold">Hello Cora</h1>
-          <p className="mt-1">Welcome to Cora Finance — your personal financial assistant.</p>
-          <div className="mt-4">
-            <Button>Get Started</Button>
+    <div className="flex h-screen bg-mesh-gradient">
+      <aside className="hidden md:flex">
+        <Sidebar />
+      </aside>
+      <main className="flex-1 flex flex-col relative overflow-hidden">
+        <Header />
+        <div className="flex-1 overflow-y-auto p-4 pb-24 md:pb-4">
+          <div className="max-w-2xl mx-auto">
+            {/* Cora's Greeting - Simplified */}
+            {proactiveInsights && proactiveInsights.insights.length > 0 && (
+              <div className="mb-6 bg-gradient-to-r from-[var(--primary)]/5 to-[var(--accent)]/5 rounded-xl p-4 border border-[var(--primary)]/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center text-white text-lg shadow-lg flex-shrink-0">
+                    ✨
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[var(--text-primary)]">Cora</p>
+                    <p className="text-[var(--text-secondary)] text-sm truncate">{proactiveInsights.greeting}</p>
+                  </div>
+                  <ViewDetailsLink />
+                </div>
+              </div>
+            )}
+            
+            <RootHomeGreeting />
+            
+            {/* Key Metrics Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <SafeToSpendWidget data={safeToSpendData} />
+              <HealthScoreWidget data={healthScoreData} />
+            </div>
+            
+            {/* Cash Flow Forecast - Story 7.3 */}
+            <div className="mb-6">
+              <CashFlowForecastChart />
+            </div>
+            
+            {/* Financial Summary - Portfolio, Goals, Debt */}
+            <div className="mb-6">
+              <RootOverviewHeader />
+              <FinancialSummaryWidget 
+                portfolio={financialSummary?.portfolio}
+                goals={financialSummary?.goals}
+                debt={financialSummary?.debt}
+              />
+            </div>
+            
+            {/* Compact Insight Feed */}
+            {insightsList.length > 0 && (
+              <div>
+                <RootRecentInsightsHeader />
+                <CompactInsightList insights={insightsList} maxItems={3} />
+              </div>
+            )}
           </div>
         </div>
-        <h2 className="text-2xl font-semibold">Cora Finance — Home</h2>
-        <div className="mt-2 flex gap-4">
-          <div className="health card">Health: <strong>78/100</strong></div>
-          <div className="safe card">Safe-to-Spend: <strong>420,00 €</strong></div>
+        <div className="md:hidden">
+          <BottomNav />
         </div>
-      </header>
-
-      <section className="mb-6">
-        <h2 className="text-lg mb-2">Insights</h2>
-        <div className="space-y-3">
-          {insights.map((i) => (
-            <InsightCard key={i.id} priority={i.priority} title={i.title} message={i.message} timestamp={i.timestamp} />
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="text-lg mb-2">Recent Transactions</h2>
-        <TransactionList items={transactions} />
-      </section>
+      </main>
     </div>
   )
 }

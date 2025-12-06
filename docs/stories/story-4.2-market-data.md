@@ -1,6 +1,6 @@
 # Story 4.2: Market Data Sync Service
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** System,
@@ -8,15 +8,15 @@
 **So that** the user's Net Worth and Portfolio Performance are always up-to-date without manual input.
 
 ## Acceptance Criteria
-1.  [ ] **Library:** Install and configure `yahoo-finance2` (Robust Node.js wrapper for Yahoo Finance).
-2.  [ ] **Service:** Implement `updateAssetPrices()` in `lib/services/market-data.ts`.
+1.  [x] **Library:** Install and configure `yahoo-finance2` (Robust Node.js wrapper for Yahoo Finance).
+2.  [x] **Service:** Implement `updateAssetPrices()` in `lib/services/market-data.ts`.
     *   Logic: Query DB for all distinct `ticker` symbols in `assets`.
     *   Batch Fetch: Request prices from Yahoo Finance.
     *   Update DB: Update `current_price` and `last_updated` in the `assets` table.
-3.  [ ] **API Route (Cron):** Create a Route Handler `/api/cron/update-prices` that calls the service.
-4.  [ ] **Security:** Protect the Cron route with a `CRON_SECRET` header (standard Vercel Cron pattern) to prevent unauthorized triggers.
-5.  [ ] **Error Handling:** If a ticker is invalid or API fails, log the error but do not crash the entire batch.
-6.  [ ] **Verification:** Manually triggering the API route updates the prices in the database.
+3.  [x] **API Route (Cron):** Create a Route Handler `/api/cron/update-prices` that calls the service.
+4.  [x] **Security:** Protect the Cron route with a `CRON_SECRET` header (standard Vercel Cron pattern) to prevent unauthorized triggers.
+5.  [x] **Error Handling:** If a ticker is invalid or API fails, log the error but do not crash the entire batch.
+6.  [x] **Verification:** Manually triggering the API route updates the prices in the database.
 
 ## Dev Notes (Context)
 
@@ -56,6 +56,12 @@ Add `vercel.json` (optional for local, but good for deployment):
 
 **4. Rate Limiting:**
 Be gentle. If we have > 50 assets, batch them or add a small delay.
+
+**Implementation Notes:**
+- `lib/services/market-data.ts` added; `updateAssetPrices()` uses `yahoo-finance2` and updates `assets` via server Supabase client.
+- Cron route: `src/app/api/cron/update-prices/route.ts` protects with `CRON_SECRET` header and invokes the service.
+- `vercel.json` added to schedule `/api/cron/update-prices` every 30 minutes.
+- Added `CRON_SECRET` to README_DEV example for local testing.
 
 ---
 

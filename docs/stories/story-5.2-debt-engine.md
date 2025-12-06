@@ -1,6 +1,6 @@
 # Story 5.2: Debt Strategy Engine (Simulator)
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 5. Debt & Planning
 **Story:**
 **As a** System,
@@ -8,20 +8,20 @@
 **So that** I can calculate exactly how much time and interest the user can save.
 
 ## Acceptance Criteria
-1.  [ ] **Service:** Implement `calculateDebtStrategy(userId, extraMonthlyPayment)` in `lib/planning/debt.ts`.
-2.  [ ] **Input Gathering:** Fetch all accounts where type is `credit_card` or `loan`.
+1.  [x] **Service:** Implement `calculateDebtStrategy(userId, extraMonthlyPayment)` in `lib/planning/debt.ts`.
+2.  [x] **Input Gathering:** Fetch all accounts where type is `credit_card` or `loan`.
     *   Required fields: `balance`, `interest_rate`, `min_payment`.
-3.  [ ] **Simulation Logic:** Create a simulation loop that runs month-by-month until all debt is zero.
+3.  [x] **Simulation Logic:** Create a simulation loop that runs month-by-month until all debt is zero.
     *   **Scenario A (Avalanche):** Sort debts by Interest Rate (DESC). Apply `extraMonthlyPayment` to the top debt.
     *   **Scenario B (Snowball):** Sort debts by Balance (ASC). Apply `extraMonthlyPayment` to the top debt.
-4.  [ ] **Math Rules:**
+4.  [x] **Math Rules:**
     *   Monthly Interest = `(Balance * Rate) / 12`.
     *   New Balance = `Balance + Interest - Payment`.
     *   If a debt is paid off, roll its minimum payment into the "Snowball" for the next debt.
-5.  [ ] **Output:** Return a comparison object:
+5.  [x] **Output:** Return a comparison object:
     *   `avalanche`: { payoffDate, totalInterestPaid, graphData }
     *   `snowball`: { payoffDate, totalInterestPaid, graphData }
-6.  [ ] **Unit Test:** Write a test case to prove Avalanche saves more money than Snowball mathematically.
+6.  [x] **Unit Test:** Write a test case to prove Avalanche saves more money than Snowball mathematically.
 
 ## Dev Notes (Context)
 

@@ -1,6 +1,6 @@
 # Story 4.5: Portuguese Tax Logic Engine (FIFO)
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** System,
@@ -8,7 +8,7 @@
 **So that** the tax estimates comply with Portuguese IRS rules and the user knows their true liability.
 
 ## Acceptance Criteria
-1.  [ ] **Logic Utility:** Implement `calculateFIFOGains(transactions)` in `lib/intelligence/tax.ts`.
+1.  [x] **Logic Utility:** Implement `calculateFIFOGains(transactions)` in `lib/intelligence/tax.ts`.
 2.  [ ] **FIFO Algorithm:**
     *   Fetch all `BUY` transactions for a specific ticker (sorted by Date ASC).
     *   Fetch all `SELL` transactions (sorted by Date ASC).
@@ -18,9 +18,9 @@
     *   `Gain = (SellPrice * Qty) - (BuyPrice * MatchedQty) - SellFees - BuyFees`.
     *   `Tax = Gain * 0.28` (Standard PT Rate).
     *   If Gain < 0, Tax = 0 (Loss).
-4.  [ ] **Portfolio Integration:** Update the `getPortfolioData` action to run this calculation for *hypothetical* sells (i.e., "Unrealized Tax Liability").
+4.  [x] **Portfolio Integration:** Update the `getPortfolioData` action to run this calculation for *hypothetical* sells (i.e., "Unrealized Tax Liability").
     *   *Scenario:* "If I sold everything today, what would I owe?"
-5.  [ ] **UI Update:** Add a "Tax Exposure" card or tooltip to the Portfolio view showing the estimated 28% liability on unrealized gains.
+5.  [x] **UI Update:** Add a "Tax Exposure" card or tooltip to the Portfolio view showing the estimated 28% liability on unrealized gains.
 
 ## Dev Notes (Context)
 
@@ -51,6 +51,12 @@ interface TaxLot {
 
 **4. Performance:**
 This calculation happens in memory based on the transaction history. It should be fast enough for typical user portfolios (< 1000 trades).
+
+**Implementation Notes:**
+- `src/lib/intelligence/tax.ts` implements FIFO utilities and `detectTaxHarvesting`.
+- `calculateFIFOGainsForTicker` and `calculateFIFOGainsForPortfolio` added to compute unrealized tax exposure.
+- `getPortfolioData` in `src/lib/actions/portfolio.ts` now computes `taxExposure` and calls `detectTaxHarvesting` when the Portfolio page is loaded.
+- UI component `src/components/portfolio/tax-exposure-card.tsx` added.
 
 ---
 

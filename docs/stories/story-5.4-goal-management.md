@@ -1,6 +1,6 @@
 # Story 5.4: Goal Management (Savings Buckets)
 
-**Status:** Approved
+**Status:** Done
 **Epic:** 5. Debt & Planning
 **Story:**
 **As a** User,
@@ -8,18 +8,25 @@
 **So that** I stay motivated to save for things I care about.
 
 ## Acceptance Criteria
-1.  [ ] **Schema:** Create `goals` table in Drizzle/Supabase.
+1.  [x] **Schema:** Create `goals` table in Drizzle/Supabase.
     *   Fields: `id`, `user_id`, `name`, `target_amount`, `current_amount`, `deadline` (Date), `linked_account_id` (Nullable FK).
-2.  [ ] **Page:** Create `/planning/goals` page (or a tab within `/planning`).
-3.  [ ] **Add Goal UI:** Create a Dialog form to add a new goal.
+2.  [x] **Page:** Create `/planning/goals` page (or a tab within `/planning`).
+3.  [x] **Add Goal UI:** Create a Dialog form to add a new goal.
     *   *Smart Link:* Allow user to select a "Savings Account" to link. If linked, `current_amount` should be read-only (synced from account balance).
     *   *Manual:* If not linked, user manually updates `current_amount`.
-4.  [ ] **Goal Card UI:** Display each goal as a card.
+4.  [x] **Goal Card UI:** Display each goal as a card.
     *   **Visuals:** Title, Amount (Current / Target), Deadline.
     *   **Progress Bar:** Visual indicator of % complete. Color changes based on status (Green = On Track, Yellow = Behind).
-5.  [ ] **Logic:** Calculate "Monthly Savings Needed" to hit the deadline based on the remaining amount.
+5.  [x] **Logic:** Calculate "Monthly Savings Needed" to hit the deadline based on the remaining amount.
     *   Display: "Save €X/month to reach goal by [Date]."
-6.  [ ] **Confetti:** If a goal reaches 100%, trigger a confetti animation (Micro-interaction).
+6.  [x] **Confetti:** If a goal reaches 100%, trigger a confetti animation (Micro-interaction).
+
+## Implementation Notes
+
+- Files added: `src/components/planning/goal-card.tsx`, `src/components/planning/add-goal-dialog.tsx`, `src/app/(dashboard)/planning/goals/page.tsx`.
+- Server actions and validations already implemented in `src/lib/actions/goals.ts` and `src/lib/validations/goals.ts`.
+- Confetti uses `canvas-confetti` and is fired when a goal reaches 100%.
+- Linked account selection is supported in the Add Goal dialog, and account balances are fetched and used to display current progress on goal cards.
 
 ## Dev Notes (Context)
 

@@ -1,6 +1,6 @@
 # Story 5.6: FIRE Projection (Financial Independence)
 
-**Status:** Approved
+**Status:** Done
 **Epic:** 5. Debt & Planning
 **Story:**
 **As a** User,
@@ -8,22 +8,29 @@
 **So that** I stay motivated to maintain a high savings rate.
 
 ## Acceptance Criteria
-1.  [ ] **Logic:** Implement `calculateFIREProjection` utility.
+1.  [x] **Logic:** Implement `calculateFIREProjection` utility.
     *   **FI Number:** `Annual Expenses * 25` (Standard 4% Rule).
     *   **Current Net Worth:** Sum of all Assets - Sum of all Debts.
     *   **Annual Savings:** `Average Monthly Savings * 12`.
     *   **Growth Rate:** Default 7% (inflation-adjusted market return).
-2.  [ ] **Projection Loop:** Calculate Net Worth growth year-over-year until it hits the FI Number.
+2.  [x] **Projection Loop:** Calculate Net Worth growth year-over-year until it hits the FI Number.
     *   Return: `YearsToFI`, `RetirementDate`.
-3.  [ ] **UI Component:** Create `FIREChart` component (Recharts).
+3.  [x] **UI Component:** Create `FIREChart` component (Recharts).
     *   X-Axis: Years (Now -> Future).
     *   Line 1: Projected Net Worth.
     *   Line 2 (Reference): FI Number (Horizontal Line).
     *   Intersection Point: Highlight the "Freedom Date".
-4.  [ ] **"What-If" Simulator:** Add a slider for "Monthly Savings".
+4.  [x] **"What-If" Simulator:** Add a slider for "Monthly Savings".
     *   Moving the slider instantly updates the chart and date.
     *   *Insight:* "Saving €X more per month brings retirement Y years closer."
-5.  [ ] **Page:** Add this to the `/planning` dashboard.
+5.  [x] **Page:** Add this to the `/planning` dashboard.
+
+## Implementation Notes
+
+- Files added: `src/lib/planning/fire.ts`, `src/app/api/planning/calculate-fire/route.ts`, `src/components/planning/fire-chart.tsx`, `src/components/planning/fire-simulator.tsx`, `src/components/planning/client-fire-sim.tsx`.
+- Server Action: `calculateFIREProjectionForUser` in `src/lib/actions/planning.ts` exposed the server utility function.
+- Data sources: Net worth uses holdings (from `getPortfolioData`) + account balances; Average expense derived from `monthly_summaries`, fallback patterns handled.
+- UI: Slider updates projection via API; chart shows net worth and a FI target line; impact shown in small cards (years to FI, retirement date, annual savings).
 
 ## Dev Notes (Context)
 

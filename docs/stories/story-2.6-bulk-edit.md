@@ -1,6 +1,6 @@
 # Story 2.6: Bulk Edit & Correction
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 2. Banking & Data Ingestion
 **Story:**
 **As a** Power User,

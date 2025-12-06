@@ -1,6 +1,6 @@
 # Story 5.5: Emergency Fund Calculator
 
-**Status:** Approved
+**Status:** Done
 **Epic:** 5. Debt & Planning
 **Story:**
 **As a** User,
@@ -8,18 +8,25 @@
 **So that** I have a realistic safety net, not just a guess.
 
 ## Acceptance Criteria
-1.  [ ] **Logic:** Implement `calculateEmergencyTarget(userId, months)` in `lib/planning/emergency.ts`.
+1.  [x] **Logic:** Implement `calculateEmergencyTarget(userId, months)` in `lib/planning/emergency.ts`.
     *   Fetch last 3-6 months of `monthly_summaries`.
     *   Calculate `Average Monthly Expense` (`total_out`).
     *   Target = `Average * months` (User selectable: 3, 6, 12).
     *   *Fallback:* If history < 1 month, use `Income * 0.8` or prompt user for estimate.
-2.  [ ] **UI Component:** Create `EmergencyFundWidget` (Special type of Goal Card).
+2.  [x] **UI Component:** Create `EmergencyFundWidget` (Special type of Goal Card).
     *   Display: Current Liquid Cash vs Target.
     *   Controls: Toggle for "3 Months", "6 Months", "1 Year".
-3.  [ ] **Integration:** Display this widget prominently on the `/planning` page.
-4.  [ ] **Insight Trigger:** If `Current Liquid Cash < 3 Months Target`:
+3.  [x] **Integration:** Display this widget prominently on the `/planning` page.
+4.  [x] **Insight Trigger:** If `Current Liquid Cash < 3 Months Target`:
     *   Generate `Warning` insight: "Emergency Fund Low. You have [X] months of runway."
-5.  [ ] **Visuals:** Use a "Shield" icon. Color scale:
+5.  [x] **Visuals:** Use a "Shield" icon. Color scale:
+    ## Implementation Notes
+
+    - Files added: `src/lib/planning/emergency.ts`, `src/app/api/planning/calculate-emergency/route.ts`, `src/components/planning/emergency-fund-widget.tsx`.
+    - Server action: `calculateEmergencyTargetForUser` in `src/lib/actions/planning.ts` delegates to `calculateEmergencyTarget` and triggers a warning insight when runway < 3 months.
+    - Data sources: `monthly_summaries` is used to compute the average monthly expense; fallback uses last 30 days transactions; Liquid Cash is computed as sum of checking + savings.
+    - Integration: Widget is added to `src/app/(dashboard)/planning/page.tsx` and initialized server-side.
+
     *   < 3 Months: Red/Orange.
     *   3-6 Months: Yellow.
     *   6+ Months: Green.

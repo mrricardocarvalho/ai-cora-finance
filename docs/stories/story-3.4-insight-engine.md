@@ -8,14 +8,14 @@
 **So that** the user sees a feed of relevant, prioritized information instead of just raw numbers.
 
 ## Acceptance Criteria
-1.  [ ] **Schema:** Create `insights` table in Drizzle/Supabase.
+1.  [x] **Schema:** Create `insights` table in Drizzle/Supabase.
     *   Fields: `id`, `user_id`, `type` (Enum), `title`, `message`, `action_link`, `score_impact`, `status` (Enum), `created_at`.
-2.  [ ] **Generation Logic:** Implement `generateInsights(userId)` service in `lib/intelligence/insights.ts`.
-3.  [ ] **Rule 1 (Comfort Floor):** If `SafeSpend` < 0 -> Generate `Urgent` insight: "You have breached your Comfort Floor."
-4.  [ ] **Rule 2 (Low Buffer):** If `SafeSpend` is positive but < 10% of Floor -> Generate `Warning` insight: "Approaching Comfort Floor."
-5.  [ ] **Rule 3 (New Subscription):** If a new `recurring_pattern` was added recently -> Generate `Info` insight: "New subscription detected: [Merchant]."
-6.  [ ] **Idempotency:** Ensure we don't generate duplicate insights for the same event on the same day.
-7.  [ ] **API:** Create Server Action `getInsights(userId)` to fetch active insights sorted by Priority (Urgent > Warning > Opportunity > Info) then Date.
+2.  [x] **Generation Logic:** Implement `generateInsights(userId)` service in `lib/intelligence/insights.ts`.
+3.  [x] **Rule 1 (Comfort Floor):** If `SafeSpend` < 0 -> Generate `Urgent` insight: "You have breached your Comfort Floor."
+4.  [x] **Rule 2 (Low Buffer):** If `SafeSpend` is positive but < 10% of Floor -> Generate `Warning` insight: "Approaching Comfort Floor."
+5.  [x] **Rule 3 (New Subscription):** If a new `recurring_pattern` was added recently -> Generate `Info` insight: "New subscription detected: [Merchant]."
+6.  [x] **Idempotency:** Ensure we don't generate duplicate insights for the same event on the same day.
+7.  [x] **API:** Create Server Action `getInsights(userId)` to fetch active insights sorted by Priority (Urgent > Warning > Opportunity > Info) then Date.
 
 ## Dev Notes (Context)
 

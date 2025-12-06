@@ -1,6 +1,6 @@
 # Story 4.6: Tax Optimization Insights
 
-**Status:** Approved
+**Status:** Completed
 **Epic:** 4. Investment Engine
 **Story:**
 **As a** User,
@@ -8,19 +8,19 @@
 **So that** I don't pay more to the IRS than necessary.
 
 ## Acceptance Criteria
-1.  [ ] **Analysis Logic:** Implement `detectTaxHarvesting(userId)` in `lib/intelligence/tax.ts`.
-2.  [ ] **Trigger:** Hook this analysis to run after `syncMarketData` (Story 4.2) or when the Portfolio page is loaded.
-3.  [ ] **The Rule:**
+1.  [x] **Analysis Logic:** Implement `detectTaxHarvesting(userId)` in `lib/intelligence/tax.ts`.
+2.  [x] **Trigger:** Hook this analysis to run after `syncMarketData` (Story 4.2) or when the Portfolio page is loaded.
+3.  [x] **The Rule:**
     *   Iterate through all current `holdings`.
     *   Check if `Current Price < Avg Cost Basis` (Unrealized Loss).
     *   If `Unrealized Loss > €100` (Threshold to avoid noise), flag as opportunity.
-4.  [ ] **Insight Generation:** Create an `Opportunity` insight record:
+4.  [x] **Insight Generation:** Create an `Opportunity` insight record:
     *   Title: "Tax-Loss Harvesting Opportunity"
     *   Message: "Selling [Ticker] could generate a €[Amount] loss to offset other capital gains."
     *   Action Link: `/portfolio`
     *   Score Impact: +5
-5.  [ ] **Visuals:** Display a specific "IRS Shield" icon or badge on the Insight Card (using the Terracotta color `#E17055`).
-6.  [ ] **Disclaimer:** Ensure the Insight Card includes a subtle footer: *"Not financial advice. Consult a tax professional."*
+5.  [x] **Visuals:** Display a specific "IRS Shield" icon or badge on the Insight Card (using the Terracotta color `#E17055`).
+6.  [x] **Disclaimer:** Ensure the Insight Card includes a subtle footer: *"Not financial advice. Consult a tax professional."*
 
 ## Dev Notes (Context)
 
@@ -36,6 +36,11 @@ New Tax = €140. **You saved €140.**
 
 **3. Idempotency (Critical):**
 Do not spam the user. If we generated a "Harvest [Ticker]" insight today, do not generate it again for 7 days unless the loss increases significantly (> 20%).
+
+**Implementation Notes:**
+- `detectTaxHarvesting(userId)` added to `src/lib/intelligence/tax.ts`. It inspects holdings and creates `opportunity` insights for unrealized losses > €100. It enforces idempotency (max once per 7 days per ticker unless loss increases >20%).
+- `src/components/InsightCard.tsx` updated to show a terracotta IRS badge and disclaimer for Tax-Loss Harvesting insights.
+- The tax-insight footer & badge meet the visual & idempotency requirements.
 
 **4. UI Polish:**
 Use the `Badge` component with the specific Tax Color defined in Story 1.1 (`tax_accent`).

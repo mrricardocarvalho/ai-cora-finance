@@ -8,17 +8,17 @@
 **So that** I can spot negative trends before they become problems.
 
 ## Acceptance Criteria
-1.  [ ] **Schema:** Create `monthly_summaries` table to store pre-calculated totals per user/month.
+1.  [x] **Schema:** Create `monthly_summaries` table to store pre-calculated totals per user/month.
     *   Fields: `id`, `user_id`, `month` (Date/String YYYY-MM), `total_in`, `total_out`, `savings_rate`.
-2.  [ ] **Calculation Logic:** Implement a database trigger (or Service logic) that updates this table whenever a transaction is added/updated/deleted.
+2.  [x] **Calculation Logic:** Implement a server-side recalculation service that updates this table whenever a transaction is added/updated/deleted (MVP strategy).
     *   *Note:* For MVP, a SQL Trigger is preferred for data integrity, but a robust Server Action recalculation is acceptable if SQL complexity is too high.
-3.  [ ] **UI Component:** Implement `QuickStatCard` from UX Spec v1.3.
+3.  [x] **UI Component:** Implement `QuickStatCard` from UX Spec v1.3.
     *   Props: `label`, `value`, `trend` ('up', 'down', 'neutral'), `trendValue` (e.g., "+12%").
-4.  [ ] **Dashboard Integration:** Display 3 Quick Stats on the Dashboard (Desktop Sidebar / Mobile Tab):
+4.  [x] **Dashboard Integration:** Display 3 Quick Stats on the Dashboard (Desktop Sidebar / Mobile Tab):
     *   **Net Worth:** (Sum of all accounts).
     *   **This Month:** (Total Out vs Last Month).
     *   **Savings Rate:** (Total In - Total Out) / Total In %.
-5.  [ ] **Visuals:**
+5.  [x] **Visuals:**
     *   Spending Trend: Red if Up (Bad), Green if Down (Good).
     *   Savings Trend: Green if Up (Good), Red if Down (Bad).
 
