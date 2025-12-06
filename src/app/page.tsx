@@ -8,8 +8,9 @@ import CompactInsightList from '../components/insights/CompactInsightList'
 import SafeToSpendWidget from '../components/dashboard/SafeToSpendWidget'
 import HealthScoreWidget from '../components/dashboard/HealthScoreWidget'
 import FinancialSummaryWidget from '../components/dashboard/FinancialSummaryWidget'
-import CashFlowForecastChart from '../components/dashboard/CashFlowForecastChart'
-import { RootHomeGreeting, RootOverviewHeader, RootRecentInsightsHeader, ViewDetailsLink } from '../components/shared/PageHeader'
+import CoraHeader from '../components/shared/CoraHeader'
+import CoraPrompt, { CORA_PROMPTS } from '../components/shared/CoraPrompt'
+import HomeChatInput from '../components/shared/HomeChatInput'
 import { fetchSafeToSpend } from '../lib/actions/dashboard'
 import { getInsights, generateInsights } from '../lib/actions/insights'
 import { getHealthScore } from '../lib/actions/health-score'
@@ -41,6 +42,22 @@ export default async function RootPage() {
   if (!profile || !profile.onboarding_completed) {
     redirect('/onboarding')
   }
+
+  // Check if user has accounts (for contextual prompts)
+  const { data: accounts } = await supabase
+    .from('accounts')
+    .select('id')
+    .eq('user_id', user.id)
+    .limit(1)
+  const hasAccounts = accounts && accounts.length > 0
+
+  // Check if user has transactions
+  const { data: transactions } = await supabase
+    .from('transactions')
+    .select('id')
+    .eq('user_id', user.id)
+    .limit(1)
+  const hasTransactions = transactions && transactions.length > 0
   
   // Fetch data for Home page
   let safeToSpendData = null
@@ -96,8 +113,17 @@ export default async function RootPage() {
 
   
   const insightsList: InsightRow[] = insightsRes.success && Array.isArray(insightsRes.data) ? insightsRes.data : []
+
+  // Determine contextual prompt based on user state
+  const getContextualPrompt = () => {
+    if (!hasAccounts) return CORA_PROMPTS.noAccounts
+    if (!hasTransactions) return CORA_PROMPTS.noTransactions
+    if (insightsList.length === 0) return CORA_PROMPTS.allCaughtUp
+    return null
+  }
+  const contextualPrompt = getContextualPrompt()
   
-  // Render with dashboard-style layout and mesh background
+  // Render Cora-centric layout: Hero → Insights → Quick Stats → Chat Input
   return (
     <div className="flex h-screen bg-mesh-gradient">
       <aside className="hidden md:flex">
@@ -105,56 +131,60 @@ export default async function RootPage() {
       </aside>
       <main className="flex-1 flex flex-col relative overflow-hidden">
         <Header />
-        <div className="flex-1 overflow-y-auto p-4 pb-24 md:pb-4">
+        <div className="flex-1 overflow-y-auto p-4 pb-32 md:pb-4">
           <div className="max-w-2xl mx-auto">
-            {/* Cora's Greeting - Simplified */}
-            {proactiveInsights && proactiveInsights.insights.length > 0 && (
-              <div className="mb-6 bg-gradient-to-r from-[var(--primary)]/5 to-[var(--accent)]/5 rounded-xl p-4 border border-[var(--primary)]/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center text-white text-lg shadow-lg flex-shrink-0">
-                    ✨
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[var(--text-primary)]">Cora</p>
-                    <p className="text-[var(--text-secondary)] text-sm truncate">{proactiveInsights.greeting}</p>
-                  </div>
-                  <ViewDetailsLink />
-                </div>
+            {/* Story 6.7 & 6.9: Cora Hero Section - She speaks first */}
+            <div className="mb-6">
+              <CoraHeader 
+                context="home" 
+                data={{ 
+                  insightSummary: proactiveInsights?.greeting || undefined 
+                }} 
+              />
+            </div>
+            
+            {/* Story 6.7: Insight Feed is PRIMARY (above widgets) */}
+            {insightsList.length > 0 && (
+              <div className="mb-6">
+                <h2 className="text-sm font-medium text-[var(--text-muted)] mb-3 uppercase tracking-wide">
+                  What I noticed
+                </h2>
+                <CompactInsightList insights={insightsList} maxItems={5} />
+              </div>
+            )}
+
+            {/* Story 6.8: Contextual Next-Step Prompt */}
+            {contextualPrompt && (
+              <div className="mb-6">
+                <CoraPrompt {...contextualPrompt} />
               </div>
             )}
             
-            <RootHomeGreeting />
-            
-            {/* Key Metrics Row */}
+            {/* Quick Stats Row (secondary to insights) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <SafeToSpendWidget data={safeToSpendData} />
               <HealthScoreWidget data={healthScoreData} />
             </div>
             
-            {/* Cash Flow Forecast - Story 7.3 */}
-            <div className="mb-6">
-              <CashFlowForecastChart />
-            </div>
-            
             {/* Financial Summary - Portfolio, Goals, Debt */}
             <div className="mb-6">
-              <RootOverviewHeader />
+              <h2 className="text-sm font-medium text-[var(--text-muted)] mb-3 uppercase tracking-wide">
+                Overview
+              </h2>
               <FinancialSummaryWidget 
                 portfolio={financialSummary?.portfolio}
                 goals={financialSummary?.goals}
                 debt={financialSummary?.debt}
               />
             </div>
-            
-            {/* Compact Insight Feed */}
-            {insightsList.length > 0 && (
-              <div>
-                <RootRecentInsightsHeader />
-                <CompactInsightList insights={insightsList} maxItems={3} />
-              </div>
-            )}
           </div>
         </div>
+        
+        {/* Story 6.7: Sticky Chat Input at bottom (mobile) */}
+        <div className="fixed bottom-16 left-0 right-0 md:hidden px-4 pb-2 bg-gradient-to-t from-[var(--bg-mesh-1)] to-transparent pt-4">
+          <HomeChatInput />
+        </div>
+        
         <div className="md:hidden">
           <BottomNav />
         </div>

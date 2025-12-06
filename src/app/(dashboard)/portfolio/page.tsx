@@ -9,7 +9,8 @@ import AddInvestmentWrapper from '../../../components/portfolio/add-investment-w
 import TaxExposureCard from '../../../components/portfolio/tax-exposure-card'
 import DiversificationCard from '../../../components/portfolio/DiversificationCard'
 import RefreshPricesButton from '../../../components/portfolio/refresh-prices-button'
-import { PortfolioHeader, PortfolioHoldingsHeader, PortfolioNoHoldings, PortfolioLoginRequired, PortfolioLoadError } from '../../../components/shared/PageHeader'
+import { PortfolioHoldingsHeader, PortfolioNoHoldings, PortfolioLoginRequired, PortfolioLoadError } from '../../../components/shared/PageHeader'
+import CoraHeader from '../../../components/shared/CoraHeader'
 
 export default async function PortfolioPage(){
   const supabase = await createClient()
@@ -51,8 +52,8 @@ export default async function PortfolioPage(){
 
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-5">
-      {/* Header */}
-      <PortfolioHeader />
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="portfolio" />
 
       {/* Portfolio Summary - always full width for cleaner look */}
       <section>

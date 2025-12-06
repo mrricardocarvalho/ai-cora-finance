@@ -9,6 +9,7 @@ import DeductionSummaryCard from '../../../../components/planning/DeductionSumma
 import TaxChecklistCard from '../../../../components/planning/TaxChecklistCard'
 import type { AnnualDeductionSummary, CategoryDeductionSummary } from '../../../../lib/tax/deduction-scanner'
 import type { TaxEventInstance } from '../../../../lib/tax/calendar-types'
+import CoraHeader from '../../../../components/shared/CoraHeader'
 
 interface TaxPlanningClientProps {
   initialEvents: TaxEventInstance[]
@@ -85,6 +86,8 @@ export default function TaxPlanningClient({
   
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6">
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="planning/taxes" />
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link 

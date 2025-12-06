@@ -8,6 +8,7 @@ import { ExtraPaymentSimulator } from '../../../../components/planning/ExtraPaym
 import { DebtProgressCard } from '../../../../components/planning/DebtProgressCard'
 import AddDebtDialog from '../../../../components/planning/add-debt-dialog'
 import { useTranslations } from '../../../../lib/i18n'
+import CoraHeader from '../../../../components/shared/CoraHeader'
 
 type Account = {
   id: string
@@ -99,6 +100,8 @@ export default function DebtPageClient({
   
   return (
     <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6">
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="planning/debt" />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-[var(--text-primary)]">{t.pages.debt.title}</h1>

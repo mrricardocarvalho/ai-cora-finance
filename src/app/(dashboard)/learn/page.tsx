@@ -5,6 +5,7 @@ import { RecommendedConcepts } from '@/components/education/RecommendedConcepts'
 import { ConceptLibrary } from '@/components/education/ConceptLibrary'
 import { LearningProvider } from '@/components/education/LearningContext'
 import { getLearnedConcepts } from '@/lib/actions/learning'
+import CoraHeader from '@/components/shared/CoraHeader'
 
 export const metadata: Metadata = {
   title: 'Learn | Cora Finance',
@@ -17,12 +18,8 @@ export default async function LearnPage() {
   return (
     <LearningProvider>
       <div className="container mx-auto py-6 space-y-8 max-w-7xl">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold tracking-tight">Financial Knowledge Base</h1>
-          <p className="text-muted-foreground text-lg">
-            Master your money by understanding the &quot;why&quot; behind financial decisions.
-          </p>
-        </div>
+        {/* Story 6.9: Cora Header */}
+        <CoraHeader context="learn" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Content - Library */}

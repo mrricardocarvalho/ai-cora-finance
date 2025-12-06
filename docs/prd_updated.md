@@ -338,6 +338,13 @@ Cora should feel like a **knowledgeable friend who happens to be a financial exp
 - **FR71:** Users can configure notification preferences and frequency
 - **FR72:** Notifications are actionable with direct links to relevant context
 
+### Agent Orchestration (Cora as Central Assistant)
+
+- **FR74 (Guided Journeys):** Cora guides users through multi-step journeys (onboarding → add account → upload statement → review → insights) with contextual prompts at each stage
+- **FR75 (Contextual Next Actions):** After every significant user action, Cora suggests the logical next step in natural language (e.g., after account creation: "Great! Now upload a statement for this account")
+- **FR76 (Omnipresent Cora):** Cora avatar and contextual message appear on ALL main screens (Home, Dashboard, Portfolio, Planning/Goals, Planning/Debt, Planning/Taxes, Forecast, Learn, Data, Settings) — she is the user's ever-present assistant, not a feature to visit
+- **FR77 (AI-Driven Onboarding):** Onboarding conversation uses LLM-generated responses (not canned scripts) so Cora feels like a real assistant learning about the user
+
 ---
 
 ## Non-Functional Requirements

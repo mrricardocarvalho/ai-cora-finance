@@ -6,6 +6,7 @@ import { Bell, Database, Mic, Palette } from 'lucide-react'
 import LanguageSwitcher from '../../components/settings/language-switcher'
 import { ThemeToggle } from '../../components/ui/ThemeToggle'
 import { useTranslations, useI18n } from '../../lib/i18n'
+import CoraHeader from '../../components/shared/CoraHeader'
 
 export default function SettingsPage() {
   const t = useTranslations()
@@ -14,7 +15,10 @@ export default function SettingsPage() {
   
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-6 text-[var(--text-primary)]">{t.settings.title}</h1>
+      {/* Story 6.9: Cora Header */}
+      <div className="mb-6">
+        <CoraHeader context="settings" />
+      </div>
       
       <div className="grid gap-4">
         {/* Theme Section */}

@@ -9,9 +9,10 @@ import { fetchSafeToSpend } from '../../../lib/actions/dashboard'
 import { getInsights } from '../../../lib/actions/insights'
 import { getFinancialSummary } from '../../../lib/actions/summary'
 import { createClient } from '../../../lib/supabase/server'
-import { DashboardHeader, DashboardOverviewHeader, DashboardRecentInsightsHeader } from '../../../components/shared/PageHeader'
+import { DashboardOverviewHeader, DashboardRecentInsightsHeader } from '../../../components/shared/PageHeader'
 import { DashboardKPICards } from '../../../components/dashboard/DashboardLabels'
 import ViewToggle from '../../../components/dashboard/ViewToggle'
+import CoraHeader from '../../../components/shared/CoraHeader'
 
 type InsightRow = { id: string; type: string; title: string; message: string; created_at?: string }
 type InsightsResult = { success: boolean; data?: InsightRow[]; error?: string }
@@ -65,9 +66,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: { 
   
   return (
     <div className="p-4 sm:p-6 max-w-6xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <DashboardHeader />
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="dashboard" />
+      
+      {/* View Toggle */}
+      <div className="flex justify-end">
         <ViewToggle />
       </div>
 

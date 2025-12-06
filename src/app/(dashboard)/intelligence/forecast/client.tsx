@@ -13,6 +13,7 @@ import { Loader2, Plus, Trash2, AlertTriangle } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 import { format, addDays } from 'date-fns'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import CoraHeader from '@/components/shared/CoraHeader'
 
 export default function ForecastPageClient() {
   const [forecast, setForecast] = useState<CashFlowForecast | null>(null)
@@ -84,6 +85,8 @@ export default function ForecastPageClient() {
 
   return (
     <div className="space-y-6 p-6 max-w-7xl mx-auto">
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="forecast" />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Cash Flow Forecast</h1>

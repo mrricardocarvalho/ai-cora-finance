@@ -6,6 +6,7 @@ import Button from '../../../../components/ui/button'
 import GoalCard from '../../../../components/planning/goal-card'
 import AddGoalDialog from '../../../../components/planning/add-goal-dialog'
 import { useTranslations } from '../../../../lib/i18n'
+import CoraHeader from '../../../../components/shared/CoraHeader'
 
 type Account = {
   id: string
@@ -42,6 +43,8 @@ export default function GoalsPageClient({ goals, accounts }: Props) {
   
   return (
     <div className="space-y-4 p-4">
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="planning/goals" />
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-[var(--text-primary)]">{t.pages.goals.title}</h2>
         <Button variant="primary" onClick={() => setShowAddGoal(true)} className="flex items-center gap-2">

@@ -8,7 +8,7 @@ import StatementUpload from '../../../components/upload/StatementUpload'
 import SafeToSpendWidget from '../../../components/dashboard/SafeToSpendWidget'
 import getSafeToSpend from '../../../lib/intelligence/safe-spend'
 import type { Account } from '../../../lib/types'
-import { DataHeader } from '../../../components/shared/PageHeader'
+import CoraHeader from '../../../components/shared/CoraHeader'
 
 export default async function DataPage(){
   const supabase = await createClient()
@@ -24,8 +24,8 @@ export default async function DataPage(){
 
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <DataHeader />
+      {/* Story 6.9: Cora Header */}
+      <CoraHeader context="data" />
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

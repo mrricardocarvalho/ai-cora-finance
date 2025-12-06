@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import CoraAvatar from '../../components/shared/cora-avatar'
 import { Button } from '../../components/ui'
 import { getSupabaseClient } from '../../lib/supabase/client'
+import { generateOnboardingResponse } from '../../lib/actions/onboarding'
 
 interface ChatMessage {
   id: number
@@ -55,6 +56,7 @@ export default function OnboardingPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [useAI, setUseAI] = useState(true) // Story 6.10: AI-powered onboarding
   
   // Form data
   const [data, setData] = useState<OnboardingData>({
@@ -70,19 +72,64 @@ export default function OnboardingPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  // Initial message
+  // Story 6.10: AI-generated welcome message
+  const fetchAIMessage = async (stepName: Step, userInput?: string) => {
+    if (!useAI) return null
+    try {
+      const response = await generateOnboardingResponse({
+        step: stepName,
+        userInput,
+        previousAnswers: data
+      }, 'pt-PT')
+      return response.success ? response.message : null
+    } catch {
+      setUseAI(false) // Fallback to canned responses
+      return null
+    }
+  }
+
+  // Initial message with AI
   useEffect(() => {
-    const timer = setTimeout(() => {
-      addCoraMessage("Olá! 👋 Sou a Cora, a tua assistente financeira pessoal.")
-      setTimeout(() => {
-        addCoraMessage("Vou ajudar-te a entender e melhorar a tua saúde financeira. Mas primeiro, preciso conhecer-te melhor!")
+    const initMessages = async () => {
+      setIsTyping(true)
+      const aiMessage = await fetchAIMessage('welcome')
+      if (aiMessage) {
         setTimeout(() => {
-          addCoraMessage("Estás pronto(a) para começar?")
-        }, 1500)
-      }, 1500)
-    }, 500)
-    return () => clearTimeout(timer)
+          setMessages([{
+            id: Date.now(),
+            role: 'cora',
+            content: aiMessage,
+            timestamp: new Date()
+          }])
+          setIsTyping(false)
+        }, 800)
+      } else {
+        // Fallback to original canned messages
+        setTimeout(() => {
+          addCoraMessageDirect("Olá! 👋 Sou a Cora, a tua assistente financeira pessoal.")
+          setTimeout(() => {
+            addCoraMessageDirect("Vou ajudar-te a entender e melhorar a tua saúde financeira. Mas primeiro, preciso conhecer-te melhor!")
+            setTimeout(() => {
+              addCoraMessageDirect("Estás pronto(a) para começar?")
+              setIsTyping(false)
+            }, 1500)
+          }, 1500)
+        }, 500)
+      }
+    }
+    initMessages()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Direct message add without typing simulation (for fallback)
+  const addCoraMessageDirect = (content: string) => {
+    setMessages(prev => [...prev, {
+      id: Date.now() + Math.random(),
+      role: 'cora',
+      content,
+      timestamp: new Date()
+    }])
+  }
 
   const addCoraMessage = (content: string) => {
     setIsTyping(true)
@@ -97,6 +144,24 @@ export default function OnboardingPage() {
     }, 800)
   }
 
+  // Story 6.10: AI-powered step transition
+  const transitionToStep = async (nextStep: Step, userInput?: string) => {
+    setIsTyping(true)
+    const aiMessage = await fetchAIMessage(nextStep, userInput)
+    setTimeout(() => {
+      if (aiMessage) {
+        setMessages(prev => [...prev, {
+          id: Date.now(),
+          role: 'cora',
+          content: aiMessage,
+          timestamp: new Date()
+        }])
+      }
+      setStep(nextStep)
+      setIsTyping(false)
+    }, 800)
+  }
+
   const addUserMessage = (content: string) => {
     setMessages(prev => [...prev, {
       id: Date.now(),
@@ -106,80 +171,159 @@ export default function OnboardingPage() {
     }])
   }
 
-  const handleWelcomeResponse = () => {
+  const handleWelcomeResponse = async () => {
     addUserMessage("Sim, vamos lá!")
-    setTimeout(() => {
-      addCoraMessage("Ótimo! 🎉 Primeira pergunta...")
+    if (useAI) {
+      await transitionToStep('comfort_floor', "Sim, vamos lá!")
+    } else {
       setTimeout(() => {
-        addCoraMessage("Qual é o teu **Comfort Floor** — o saldo mínimo que nunca queres ficar abaixo na tua conta à ordem?")
-        setStep('comfort_floor')
-      }, 1500)
-    }, 1000)
+        addCoraMessage("Ótimo! 🎉 Primeira pergunta...")
+        setTimeout(() => {
+          addCoraMessage("Qual é o teu **Comfort Floor** — o saldo mínimo que nunca queres ficar abaixo na tua conta à ordem?")
+          setStep('comfort_floor')
+        }, 1500)
+      }, 1000)
+    }
   }
 
-  const handleComfortFloorSubmit = () => {
+  const handleComfortFloorSubmit = async () => {
     const value = parseFloat(inputValue) || 500
-    setData(prev => ({ ...prev, comfort_floor: value }))
+    const updatedData = { ...data, comfort_floor: value }
+    setData(updatedData)
     addUserMessage(`€${value.toLocaleString('pt-PT')}`)
     setInputValue('')
     
-    setTimeout(() => {
-      addCoraMessage(`Percebi! Vou avisar-te quando estiveres perto dos €${value.toLocaleString('pt-PT')}.`)
+    if (useAI) {
+      setIsTyping(true)
+      const aiMessage = await fetchAIMessage('worries', `€${value}`)
       setTimeout(() => {
-        addCoraMessage("Agora diz-me, quais são as tuas principais **preocupações financeiras**? Podes escolher várias.")
+        if (aiMessage) {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            role: 'cora',
+            content: aiMessage,
+            timestamp: new Date()
+          }])
+        }
         setStep('worries')
-      }, 1500)
-    }, 1000)
+        setIsTyping(false)
+      }, 800)
+    } else {
+      setTimeout(() => {
+        addCoraMessage(`Percebi! Vou avisar-te quando estiveres perto dos €${value.toLocaleString('pt-PT')}.`)
+        setTimeout(() => {
+          addCoraMessage("Agora diz-me, quais são as tuas principais **preocupações financeiras**? Podes escolher várias.")
+          setStep('worries')
+        }, 1500)
+      }, 1000)
+    }
   }
 
-  const handleWorriesSubmit = () => {
+  const handleWorriesSubmit = async () => {
     if (data.worries.length === 0) {
       addCoraMessage("Escolhe pelo menos uma preocupação, ou diz-me que não tens nenhuma!")
       return
     }
     addUserMessage(data.worries.join(", "))
     
-    setTimeout(() => {
-      addCoraMessage("Obrigada por partilhares! Vou ter isso em conta nas minhas análises. 📊")
+    if (useAI) {
+      setIsTyping(true)
+      const aiMessage = await fetchAIMessage('goals', data.worries.join(", "))
       setTimeout(() => {
-        addCoraMessage("E quais são os teus **objetivos financeiros**?")
+        if (aiMessage) {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            role: 'cora',
+            content: aiMessage,
+            timestamp: new Date()
+          }])
+        }
         setStep('goals')
-      }, 1500)
-    }, 1000)
+        setIsTyping(false)
+      }, 800)
+    } else {
+      setTimeout(() => {
+        addCoraMessage("Obrigada por partilhares! Vou ter isso em conta nas minhas análises. 📊")
+        setTimeout(() => {
+          addCoraMessage("E quais são os teus **objetivos financeiros**?")
+          setStep('goals')
+        }, 1500)
+      }, 1000)
+    }
   }
 
-  const handleGoalsSubmit = () => {
+  const handleGoalsSubmit = async () => {
     if (data.goals.length === 0) {
       addCoraMessage("Escolhe pelo menos um objetivo!")
       return
     }
     addUserMessage(data.goals.join(", "))
     
-    setTimeout(() => {
-      addCoraMessage("Excelente! Vou ajudar-te a alcançar esses objetivos. 🎯")
+    if (useAI) {
+      setIsTyping(true)
+      const aiMessage = await fetchAIMessage('risk', data.goals.join(", "))
       setTimeout(() => {
-        addCoraMessage("Última pergunta: Como te sentes em relação ao **risco nos investimentos**?")
+        if (aiMessage) {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            role: 'cora',
+            content: aiMessage,
+            timestamp: new Date()
+          }])
+        }
         setStep('risk')
-      }, 1500)
-    }, 1000)
+        setIsTyping(false)
+      }, 800)
+    } else {
+      setTimeout(() => {
+        addCoraMessage("Excelente! Vou ajudar-te a alcançar esses objetivos. 🎯")
+        setTimeout(() => {
+          addCoraMessage("Última pergunta: Como te sentes em relação ao **risco nos investimentos**?")
+          setStep('risk')
+        }, 1500)
+      }, 1000)
+    }
   }
 
-  const handleRiskSelect = (value: string) => {
+  const handleRiskSelect = async (value: string) => {
     const label = RISK_OPTIONS.find(o => o.value === value)?.label || value
-    setData(prev => ({ ...prev, risk_tolerance: value }))
+    const updatedData = { ...data, risk_tolerance: value }
+    setData(updatedData)
     addUserMessage(label)
     
-    setTimeout(() => {
-      const emoji = value === 'conservative' ? '🛡️' : value === 'aggressive' ? '🚀' : '⚖️'
-      addCoraMessage(`${emoji} Entendido! Vou adaptar as minhas recomendações ao teu perfil.`)
+    if (useAI) {
+      setIsTyping(true)
+      // Pass all data for final summary
+      const aiMessage = await generateOnboardingResponse({
+        step: 'complete',
+        userInput: label,
+        previousAnswers: updatedData
+      }, 'pt-PT')
       setTimeout(() => {
-        addCoraMessage("Está tudo! Aprendi muito sobre ti. Agora vou analisar as tuas finanças e dar-te insights personalizados.")
+        if (aiMessage.success) {
+          setMessages(prev => [...prev, {
+            id: Date.now(),
+            role: 'cora',
+            content: aiMessage.message,
+            timestamp: new Date()
+          }])
+        }
+        setStep('complete')
+        setIsTyping(false)
+      }, 800)
+    } else {
+      setTimeout(() => {
+        const emoji = value === 'conservative' ? '🛡️' : value === 'aggressive' ? '🚀' : '⚖️'
+        addCoraMessage(`${emoji} Entendido! Vou adaptar as minhas recomendações ao teu perfil.`)
         setTimeout(() => {
-          addCoraMessage("Pronto(a) para ver o teu dashboard? 🏠")
-          setStep('complete')
+          addCoraMessage("Está tudo! Aprendi muito sobre ti. Agora vou analisar as tuas finanças e dar-te insights personalizados.")
+          setTimeout(() => {
+            addCoraMessage("Pronto(a) para ver o teu dashboard? 🏠")
+            setStep('complete')
+          }, 1500)
         }, 1500)
-      }, 1500)
-    }, 1000)
+      }, 1000)
+    }
   }
 
   const handleComplete = async () => {
